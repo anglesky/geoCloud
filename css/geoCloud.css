@@ -1,0 +1,229 @@
+@font-face{
+	font-family: 'DsDigib';
+	src: url('../fonts/DS-DIGIB.TTF') format('truetype');
+	font-weight: bold;
+}
+html, body{
+	font-family: 'Microsoft Yahei',Arial;
+	margin: 0  ! important;
+	padding: 0 ! important;
+	/*background-color: transparent ! important;*/
+	background-color: #181046;
+}
+.Left{
+	float: left;
+}
+.Right{
+	float: right;
+}
+.clear{
+	clear: both;
+}
+.GeoCloud{
+	margin: 0 auto;
+	width: 3840px;
+	height: 1024px;
+	background: url(../images/mainbg.png) no-repeat center center;
+}
+.GeoCloud .header-title{
+	height: 140px;
+	width: 3840px;
+	background: url(../images/top.png) no-repeat center center;
+}
+.GeoCloud .main-container{
+	/*padding: 0 24px 32px 24px;*/
+	height: 870px;
+}
+.GeoCloud .main-container .LeftPart, .GeoCloud .main-container .RightPart{
+	width: 1010px;
+	display: inline-block;
+	margin-top: -68px;
+	height: 870px;
+	position: relative;
+}
+.GeoCloud .main-container .MainPart{
+	width: 1772px;
+	height: 884px;
+	display: inline-block;
+	margin: 0 19px;
+	position: relative;
+}
+
+.GeoCloud .main-container .MainPart .topData{
+	position: absolute;
+	width: 100%;
+	z-index: 2;
+}
+.GeoCloud .main-container .MainPart .topData .title{
+	font-size: 30px;
+	color: #FEE55A;
+	line-height: 1;
+	margin-bottom: 16px;
+}
+.GeoCloud .main-container .MainPart .topData .Num .num-item{
+	font-size: 72px;
+	color: #FEE55A;
+	font-family: 'DsDigib';
+	background: rgba(255,217,254,0.3);
+	width: 56px;
+	height: 66px;
+	line-height: 66px;
+	text-align: center;
+	margin-right: 12px;
+	display: inline-block;
+}
+.GeoCloud .main-container .MainPart .topData .Num .unit{
+	color: #FEE55A;
+	font-size: 16px;
+	font-weight: bold;
+	visibility: hidden;
+}
+.GeoCloud .main-container .MainPart .topData .Num .unit.show{
+	visibility: visible;
+}
+.GeoCloud .main-container .MainPart .topData .otherData{
+	margin-top: 16px;
+	line-height: 1;
+	font-size: 20px;
+	color: white;
+}
+.GeoCloud .main-container .MainPart .topData .otherData .users span{
+	font-family: 'Arial','Microsoft Yahei';
+}
+.GeoCloud .main-container .MainPart #Map{
+	height: 800px;
+	width: 1772px;
+}
+.GeoCloud .MainPart #cloudDisk{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin-right: 30px;
+	margin-bottom: 32px;
+	width: 396px;
+	height: 440px;
+	border: 1px solid #5186FF;
+	box-shadow: 0 0 10px #00EDF4 inset;
+	-moz-box-shadow: 0 0 10px #00EDF4 inset;
+	-webkit-box-shadow: 0 0 10px #00EDF4 inset;
+	background: rgba(20, 9, 78, 0.6);
+}
+.GeoCloud .MainPart #cloudDisk .title{
+	font-size: 36px;
+	color: #FEE55A;
+	margin-top: -52px;
+	line-height: 1;
+}
+.GeoCloud .MainPart #cloudDisk .title .total-count{
+	margin-left: 12px;
+	font-size: 18px;
+}
+.GeoCloud .MainPart #cloudDisk #softType{
+	margin: 30px auto 0 auto;
+	width: 340px;
+	height: 200px;/*160*/
+}
+.triger{
+	width: 20px;
+	height: 20px;
+	background-repeat: no-repeat;
+	position: absolute;
+	z-index: 2;
+}
+.triger-left-top{
+	background-image: url(../images/j_left_top.png);
+}
+.triger-right-top{
+	right: 0;
+	background-image: url(../images/j_right_top.png);
+}
+.triger-left-bottom{
+	bottom: 0;
+	background-image: url(../images/j_left_bottom.png);
+}
+.triger-right-bottom{
+	right: 0;
+	bottom: 0;
+	background-image: url(../images/j_right_bottom.png);
+}
+.GeoCloud .MainPart #cloudDisk .online-users{
+	margin: 0 24px;
+}
+.GeoCloud .MainPart #cloudDisk .online-users .title{
+	font-size: 18px;
+	color: white;
+	margin: 0;
+}
+.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item{
+	margin-top: 10px;
+	height: 36px;
+	line-height: 36px;
+	width: 100%;
+}
+.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img{
+	/*width: 228px;*/
+	height: 36px;
+	max-width: 228px;
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img1{
+	background-image: url(../images/user1.png);
+}
+.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img2{
+	background-image: url(../images/user2.png);
+}
+.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img3{
+	background-image: url(../images/user3.png);
+}
+.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img4{
+	background-image: url(../images/user4.png);
+}
+.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-data{
+	display: inline-block;
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+}
+#rateDatas{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	margin-bottom: 32px;
+}
+#rateDatas .rateTable{
+	margin-left: 16px;
+	width: 425px;
+	height: 225px;
+	display: inline-block;
+	position: relative;
+	border: 1px solid #5186FF;
+	box-shadow: 0 0 10px #00EDF4 inset;
+	-moz-box-shadow: 0 0 10px #00EDF4 inset;
+	-webkit-box-shadow: 0 0 10px #00EDF4 inset;
+	background: rgba(20, 9, 78, 0.6);
+}
+#rateDatas .rateTable:first-child{
+	margin-left: 0;
+}
+#rateDatas .rateTable .title{
+	height: 24px;
+	line-height: 1;
+	background: url(../images/p_rate.png) no-repeat 0 center;
+	text-align: right;
+	font-size: 24px;
+	color: #FEE55A;
+	margin: 8px 8px 0 8px;
+}
+#rateDatas .gauge{
+	width: 140px;
+	height: 140px;
+	display: inline-block;
+	margin: 15px 10px 0 16px;
+}
+#rateDatas .line{
+	width: 240px;
+	height: 180px;
+	display: inline-block;
+	/*margin-top: 24px;*/
+}

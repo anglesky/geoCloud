@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>地质云 GeoCloud</title>
+
+	<meta name="keywords" content="Javascript" />
+
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/echarts.min.js"></script>
+	<script type="text/javascript" src="../js/china.js"></script>
+	<script type="text/javascript" src="../js/geoCloud3.js"></script>
+	<link type="text/css" rel="stylesheet" href="../css/geoCloud.css">
+</head>
+<style type="text/css">
+	body,ul,li{
+		margin: 0px;
+		padding: 0px;
+	}
+	ul{
+		list-style: none;
+	}
+	.left-3-bar {
+		width: 578px;
+		height: 319px;
+		border: 1px solid #5186ff;
+		box-shadow: inset 0px 0px 20px #5a3cca;
+		position: relative;
+		background-color: #1e1753;
+	}
+	.j-left-top {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -1px;
+		left: -1px;
+		background: url(../images/j_left_top.png);
+	}
+	.j-left-bottom {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		bottom: -1px;
+		left: -1px;
+		background: url(../images/j_left_bottom.png);
+	}
+	.j-right-top {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -1px;
+		right: -1px;
+		background: url(../images/j_right_top.png);
+	}
+	.j-right-bottom {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		bottom: -1px;
+		right: -1px;
+		background: url(../images/j_right_bottom.png);
+	}
+	.banner {
+		/*background-color: #050d18;*/
+		position: relative;
+		height: 240px;
+		width: 100%; 
+		margin-top: 60px;
+	}
+  	.banner .fw {
+	    width: 100%;
+	    height: 100%;
+	    min-width: 960px;
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    background-position: 50% 50%;
+	    opacity: 0;
+	    filter: alpha(opacity=0);
+	    z-index: 8; 
+	}
+    .banner .fw.fw1 {
+      	opacity: 1;
+      	filter: alpha(opacity=100);
+    }
+    .banner .fw.active {
+      	z-index: 9; 
+    }
+    .fw .l-3 {
+    	width: 578px;
+    	height: 240px;
+    }
+    .l-3-title {
+    }
+    .l-3-title .l-3-title-num {
+    	display: inline-block;
+    	min-width: 150px;
+    	height: 60px;
+    	line-height: 60px;
+    	font-size: 30px;
+    	float: right;
+    	margin: 24px 24px 0px 0px;
+    	padding: 0px 10px 0px 10px;
+    	text-align: center;
+    	color: #fee55a;
+    	border: 1px solid #3f61c2;
+    	border-radius:3px 3px 3px 3px
+    }
+    .l-3-title .l-3-title-text {
+    	display: block;
+    	width: 100px;
+    	height: 30px;
+    	line-height: 30px;
+    	font-size: 18px;
+    	float: right;
+    	margin-top: 70px;
+    	text-align: center;
+    	color: #fee55a;
+    	background-color: #1e1753;
+    }
+</style>
+<body>
+	<div class="left-3-bar">
+		<div class="j-left-top"></div>
+		<div class="j-left-bottom"></div>
+		<div class="j-right-top"></div>
+		<div class="j-right-bottom"></div>
+		<div class="l-3-title">
+			<span class="l-3-title-num">1</span>
+			<span class="l-3-title-text">访问总次数</span>
+		</div>
+		<ul class="banner">
+			<li class="fw fw1 active"><div class="l-3" id="l-3-1"></div>
+			</li>
+			<li class="fw fw2"><div class="l-3" id="l-3-2"></div>
+			</li>
+			<li class="fw fw3"><div class="l-3" id="l-3-3"></div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+
+
+	// var l_3_title_num = '123342113';
+	// $('.l-3-title .l-3-title-num').text(numAddComma(Math.ceil(Math.random()*10).toString()));
+
+	$('.l-3-title-text').css('margin-right',-(20+$('.l-3-title-num').width()+$('.l-3-title-text').width())/2);
+	// 轮播参数
+	var index = 2;
+	var picNum = 3;
+	// 产品服务量数据
+	var q_l_3_1 = 'l-3-1';
+	var q_l_3_2 = 'l-3-2';
+	var q_l_3_3 = 'l-3-3';
+	var data_x_1 = ['国土资源部','中国地址调查局','国土资源部','地科院','发展研究中心','天津地调中心','沈阳地调中心','南京地调中心','武汉地调中心','成都地调中心'];
+	var data_x_2 = ['国土资源部','中国地址调查局','国土资源部','地科院','发展研究中心','天津地调中心','沈阳地调中心','南京地调中心','武汉地调中心','上海地调中心'];
+	var data_x_3 = ['中国地址调查局','国土资源部','地科院','发展研究中心','天津地调中心','沈阳地调中心','南京地调中心','武汉地调中心','新疆地调中心'];
+	var data_y_1 = [10, 232, 256, 767, 1356, 162, 3213, 200, 64, 33];
+	var data_y_2 = [20, 232, 256, 767, 1356, 1622, 326, 200, 64, 33];
+	var data_y_3 = [20, 49, 70, 232, 1356, 1622, 326, 20000000, 64];
+	goods_service_num(q_l_3_1,data_x_1,data_y_1);
+	goods_service_num(q_l_3_2,data_x_2,data_y_2);
+	goods_service_num(q_l_3_3,data_x_3,data_y_3);
+	// 定时刷新
+	setInterval(function(){
+		$('.l-3-title .l-3-title-num').text(numAddComma(Math.ceil(Math.random()*1234560).toString()));
+		nextBanner(index);
+	},100000);
+	// 刷新
+	function nextBanner(tarIndex){
+		index = tarIndex + 1;
+		if (index > picNum) {
+			index = 1;
+		}
+		var _target = $('.fw'+tarIndex);
+		_target.animate({opacity:'1'},800,'swing',function(){
+			_target.addClass('active').siblings('.fw').removeClass('active');
+		})
+		.siblings('.fw').animate({opacity:'0'},800,'swing')
+	};
+	// 数字没３个增加逗号
+	function numAddComma(str){
+		return str.split('').reverse().join('').replace(/(\d{3})/g,'$1,').replace(/\,$/,'').split('').reverse().join('');
+	}
+	// 产品服务量柱状图
+	function goods_service_num(q,data_x,data_y){
+	var myChart = echarts.init(document.getElementById(q)); 
+	var option = {
+		    tooltip : {
+		        trigger: 'axis'
+		    },
+		    calculable : true,
+		    grid: {
+		        borderWidth: 0,
+		    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		          	show: true,
+		          	splitLine: {
+		            	show:false
+		            },
+		          	axisLine: {
+		              show: false,
+		            },
+		            axisTick: {
+		          		lineStyle: {
+		          			color: '#1e1753',
+		          		}	
+		          	},
+		           	axisLabel: {
+		           		textStyle: {
+		                	color: '#fff'
+		                },
+		             	interval: 0,
+		             	rotate: -30
+		          	},
+		            data : data_x
+		        }
+		    ],
+		    yAxis : [
+		        {
+		            type : 'value', 
+		          	show: false
+		        }
+		    ],
+		    series : [
+		        {
+		            name:'产品服务量',
+		            type:'bar',
+		            itemStyle : { 
+		              normal: {
+		                label : {
+		                	show: true, 
+		                	position: 'top',
+		                	textStyle: {
+	                             color: '#fff'
+	                        }
+	                    },
+		              
+		                color: new echarts.graphic.LinearGradient(
+	                        0, 0, 0, 1,
+	                        [
+	                            {offset: 0, color: '#12aeff'},
+	                            {offset: 0.5, color: '#12aeff'},
+	                            {offset: 1, color: '#0252ff'}
+	                        ]
+	                    )
+		              }
+		            },
+		            data:data_y,
+		            markPoint : {
+		               tooltip: {
+		                    trigger: 'item',
+		               },
+		                data : [ ]
+		            },
+		            barWidth : 24,
+		            barMinHeight:1,
+		        },   
+		    ]
+		};               
+	myChart.setOption(option);
+}                 
+</script>

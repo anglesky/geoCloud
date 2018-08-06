@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>地质云 GeoCloud</title>
+
+	<meta name="keywords" content="Javascript" />
+
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/echarts.min.js"></script>
+	<script type="text/javascript" src="../js/china.js"></script>
+	<script type="text/javascript" src="../js/geoCloud3.js"></script>
+	<link type="text/css" rel="stylesheet" href="../css/geoCloud.css">
+</head>
+<style type="text/css">
+	body,ul,li{
+		margin: 0px;
+		padding: 0px;
+	}
+	ul{
+		list-style: none;
+	}
+	.right-2-bar {
+		width: 570px;
+		height: 319px;
+		border: 1px solid #5186ff;
+		box-shadow: inset 0px 0px 20px #5a3cca;
+		position: relative;
+		background-color: #1e1753;
+	}
+	.j-left-top {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -1px;
+		left: -1px;
+		background: url(../images/j_left_top.png);
+	}
+	.j-left-bottom {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		bottom: -1px;
+		left: -1px;
+		background: url(../images/j_left_bottom.png);
+	}
+	.j-right-top {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -1px;
+		right: -1px;
+		background: url(../images/j_right_top.png);
+	}
+	.j-right-bottom {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		bottom: -1px;
+		right: -1px;
+		background: url(../images/j_right_bottom.png);
+	}
+	.right-2-bar .banner {
+		position: relative;
+		height: 319px;
+		width: 100%;
+	}
+    .right-2-bar .banner .right-2 .r-2 {
+    	width: 570px;
+    	height: 319px;
+    }
+    
+</style>
+<body>
+	<div class="right-2-bar">
+		<div class="j-left-top"></div>
+		<div class="j-left-bottom"></div>
+		<div class="j-right-top"></div>
+		<div class="j-right-bottom"></div>
+		<ul class="banner">
+			<li class="right-2"><div class="r-2" id="r-2-1"></div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	var data_y_r_2 = ['巴西','印尼','美国','印度','中国','日本','韩国','俄罗斯','泰国','马来西亚'];
+	var data_x_r_2 = [18203, 23489, 29034, 104970,131744,6303, 29034, 104970,131744,630230];
+
+	geologyDatabase(data_y_r_2,data_x_r_2);
+	// 定时刷新
+	// setInterval(function(){
+	// 	nextBanner(index);
+	// },1000);
+	// 给数组添加空值(每个数据后面添加)
+	function addNullAfter(data){
+		for(var i=0;i<data.length;i+=2){
+			data.splice(i+1,0,"");
+		}
+		return data;
+	}
+	// 给数组添加空值(每个数据前面添加)
+	function addNullBefore(data){
+		for(var i=0;i<data.length;i+=2){
+			data.splice(i,0,"");
+		}
+		return data;
+	}
+	
+	// 地质调查专业数据
+	function geologyDatabase(data_y_r_2,data_x_r_2){
+		var data_y = addNullAfter(data_y_r_2);
+		var data_x = addNullBefore(data_x_r_2);
+		var myChart = echarts.init(document.getElementById('r-2-1')); 
+		var option = {
+			    tooltip: {
+			        trigger: 'axis',
+			        axisPointer: {
+			            type: 'shadow'
+			        }
+			    },
+			    grid: {
+			        left: '6%',
+			        right: '10%',
+			        top: '4%',
+			        bottom: '4%',
+			        containLabel: true
+			    },
+			    xAxis: {
+			        type: 'value',
+			        boundaryGap: [0, 0.01],
+			        splitLine: {
+			        	show:false
+			        },
+			        axisLine:{
+			            show:false
+			        },
+			        axisTick:{
+			            show:false
+			        },
+			        axisLabel:{
+			            show:false
+			        }
+			    },
+			    yAxis: {
+			        type: 'category',
+			        data: data_y,
+			        axisLabel:{
+			            inside:true,
+			            margin:0,
+			            color:'#fff',
+			            fontSize:12,
+			        },
+			        axisTick:{
+			            show:false
+			        },
+			        axisLine:{
+			            show:false
+			        },  
+			    },
+			    series: [
+			        {
+			            name: '地质调查专业数据',
+			            type: 'bar',
+			            data: data_x,
+			            itemStyle : { 
+							normal: {
+								label : {
+									show: true, 
+									position: 'right',
+									textStyle: {
+								         color: '#fff'
+								    }
+								},
+								color: new echarts.graphic.LinearGradient(
+								    0, 0, 1, 0,
+								    [
+								        {offset: 0, color: '#008094'},
+								        {offset: 1, color: '#00ebf3'}
+								    ]
+								)
+							}
+						}
+			        }
+			    ]
+			};
+		myChart.setOption(option);
+	}
+                 
+</script>
