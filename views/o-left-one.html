@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>地质云 GeoCloud</title>
+
+	<meta name="keywords" content="Javascript" />
+
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/echarts.min.js"></script>
+	<script type="text/javascript" src="../js/china.js"></script>
+	<script type="text/javascript" src="../js/geoCloud3.js"></script>
+	<link type="text/css" rel="stylesheet" href="../css/geoCloud.css">
+</head>
+<style type="text/css">
+	body,ul,li{
+		margin: 0px;
+		padding: 0px;
+	}
+	ul{
+		list-style: none;
+	}
+	.o-left-1-bar {
+		width: 988px;
+		height: 450px;
+		border: 1px solid #5186ff;
+		box-shadow: inset 0px 0px 10px #5a3cca;
+		position: absolute;
+		overflow: hidden;
+	}
+	.o-left-1-bar .banner {
+		position: relative;
+		height: 72px;
+		width: 977px;
+		/*margin-top: 10px;*/
+		margin-left: 11px;
+		/*margin-bottom: 15px;*/
+
+	} 
+    .o-l-1-title {
+    	overflow: hidden;
+    }
+    .bar-title-left {
+    	float: left;
+    }
+	.bar-title-left .bar-title-lefttext{
+		display: inline-block;
+		text-align: left;
+		font-size: 36px;
+		color: #FEE55A;
+	}
+	#o-l-1-1 {
+    	/*margin-top: 14px;*/
+    	margin-left: 5px;
+    	margin-bottom: 5px;
+    	height: 320px;
+    	width: 978px;
+    }
+    .banner .o-l-1-bottom{
+    	float: left;
+    	width: 112px;
+    	height: 72px;
+    	margin-right: 10px;
+    	background-color: #1f2e72;
+    	/*opacity: 0.3;*/
+    }
+    .banner .o-l-1-bottom.active{
+    	background-color: #1a77b4;
+    }
+    .banner .o-l-1-bottom div {
+    	width: 100%;
+    	height: 36px;
+    	text-align: center;
+    	line-height: 36px;
+    	color: rgba(255,255,255,0.7);
+    	font-size: 24px;
+    	overflow: hidden;
+    }
+    .banner .o-l-1-bottom.active div {
+    	color: rgba(189,253,255,0.87);
+    }
+    .banner .o-l-1-bottom.active div:not(.bottom_small):first-child {
+    	font-size: 18px;
+    }
+    .banner .o-l-1-bottom div.bottom_small {
+    	font-size: 15px;
+    }
+    
+    .o-bottom {
+    	text-align: center;
+		margin: 0 auto;
+		overflow: hidden;
+    }
+    .bar-title-left .bar-title-leftimg{
+		height: 28px;
+		width: 88px;
+		display: inline-block;
+		background: url(../images/navi.png) no-repeat 0 center;
+		margin: 8px 0px 0px 8px;
+	}
+</style>
+<body>
+	<div class="o-left-1-bar">
+		<div class="j-left-top"></div>
+		<div class="j-left-bottom"></div>
+		<div class="j-right-top"></div>
+		<div class="j-right-bottom"></div>
+		<div class="o-l-1-title">
+			<div class="bar-title-left">
+				<span class="bar-title-leftimg"></span>
+				<span class="bar-title-lefttext">地质信息产品</span>
+			</div>
+		</div>
+		<div class="o-l-1-1" id="o-l-1-1"></div>
+		<div class="banner">
+			<div class="o-bottom">
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+
+
+
+	// 产品服务量数据
+	var q_l_3_1 = 'o-l-1-1';
+
+	var t_l_1_option1;
+	var t_l_1_myoption1;
+	var data_max_array = new Array();
+	var data_all_l1 = new Array();
+	var t_l_1_count1 = 1;
+	var data_goods_all = [
+		['数据','出版物','软件','地学科普','地质园','技术方法与标准','仪器设备','地质资料库'],
+		[['基础地质','能源','矿产','地质环境','水资源','物/化/遥','地质环境','水资源','物/化/遥','地质环境','水资源','物/化/遥'],['基础地质','能源','矿产','地质环境','水资源','物/化/遥'],['能源','矿产','地质环境','水资源','物/化/遥'],['能源','矿产','地质环境','水资源','物/化/遥'],['能源'],['能源','地质环境','水资源','物/化/遥'],['能源','矿产'],['能源','矿产','资料']],
+		[2345,432199,234,332,322,678,899,765],
+		[[2341,2321,3411,5656,2131,1231,3231,3411,5656,4213,4123,4323],[234,2321,34,5656,213,123],[2321,34,5656,223,123],[2321,34,5656,223,123],[2321],[2321,34,5656,213],[2321,34],[221,34,445]
+		]
+	];
+
+	max_x = 858;// 1100-150
+	max_y = 200;// 400-150
+	max_r = 120;// 150
+	min_r = 60;// 75
+	data_max_array = getMaxBydata(data_goods_all[3]);
+	
+	var r_array = getR(data_goods_all[3],data_max_array)
+	getDataAll();
+	startLeft1(0);
+	startBra();
+	// 定时
+	setInterval(function(){
+		var i = t_l_1_count1%data_goods_all[3].length;
+		startLeft1(i);
+		startBra();
+		// 呼吸效果
+		setTimeout(function(){
+			dataHighlightTl();
+			setTimeout(function(){
+				dataDownplayTl();
+			},100);
+		},200);
+		// 底部样式
+		$('.o-l-1-bottom').removeClass('active');
+		$('.o-bottom').find('.o-l-1-bottom').eq(i).addClass('active');
+		t_l_1_count1++;
+	},5000);
+creatDiv()
+	// 生成div
+	function creatDiv(){
+		var bottom_div = '';
+		for(var i=0;i<data_goods_all[0].length;i++){
+			if(i == 0){
+				bottom_div += '<div class="o-l-1-bottom active">';
+			}else{
+				bottom_div += '<div class="o-l-1-bottom">';
+			}
+			if(data_goods_all[0][i].length>4){
+				bottom_div += '<div class="bottom_small">'+data_goods_all[0][i]+'</div>';
+			}else{
+				bottom_div += '<div>'+data_goods_all[0][i]+'</div>';
+			}
+			if(data_goods_all[2][i]>999999){
+				bottom_div += '<div style="font-size:18px;">'+data_goods_all[2][i]+'个</div>';
+			}else{
+				bottom_div += '<div>'+data_goods_all[2][i]+'个</div>';
+			}
+					
+			bottom_div += '</div>';
+		}
+		var bottom_width = 122 * data_goods_all[0].length + 'px';
+		$('.o-bottom').append(bottom_div).css('width',bottom_width);
+	}
+	// 图形初始化
+	function startLeft1(i){
+		geologyScatter(data_all_l1[i],q_l_3_1,i);
+	}
+	// 初始化
+	function startBarLeft1(t_l_1_option,t_l_1_myoption){
+		t_l_1_myoption.setOption(t_l_1_option);
+	}
+	// 
+	function startBra(){
+		startBarLeft1(t_l_1_option1,t_l_1_myoption1);
+	}
+
+	// 生成随机位置
+	function getPositionCoord(data_all,data_max,r,data_name){
+		var data_array = new Array();
+		var data_x = '';
+		var data_y = '';
+		
+		for(var i=0;i<data_all.length;i++){
+			data_array[i] = new Array();
+			data_x = Math.random()*max_x;
+			data_y = Math.random()*max_y;
+			if(i == 0){
+				data_array[0][0] = data_x;
+				data_array[0][1] = data_y;
+				data_array[0][2] = data_all[i];
+				data_array[0][3] = data_name[i];
+			}else{
+				var n = 0;
+				while(!checkPosition(data_array,r,data_x,data_y,i)){
+					data_x = Math.random()*max_x;
+					data_y = Math.random()*max_y;
+					// 防止死循环
+					if(n>100000){
+						break;
+					}
+					n++;
+				}
+				data_array[i][0] = data_x;
+				data_array[i][1] = data_y;
+				data_array[i][2] = data_all[i];
+				data_array[i][3] = data_name[i];
+			}	
+		}
+		return data_array;
+	}
+	// 计算半径
+	function getR(data_all,data_max){
+		var r_array = new Array();
+		for(var i=0;i<data_all.length;i++){
+			r_array[i] = new Array();
+			for(var j=0;j<data_all[i].length;j++){
+				r_array[i][j] = ((max_r-min_r)*data_all[i][j]/data_max[i]+min_r)/2;
+			}
+		}
+		return r_array;
+	}
+	function checkPosition(data_array,r,data_x,data_y,i){
+		for(var j=0;j<data_array.length;j++){
+
+			if((data_x-data_array[j][0])*(data_x-data_array[j][0])+(data_y-data_array[j][1])*(data_y-data_array[j][1])-(r[i]+r[j])*(r[i]+r[j])<0){
+			return false;
+			}
+		}
+		return true;
+	}
+	// 获取最大数据
+	function getMaxBydata (data_array) {
+	    var arr = JSON.stringify(data_array);
+		var data = $.parseJSON(arr);
+		var max_data = new Array();
+		for(var m=0;m<data.length;m++){
+			if(data[m].length>0){
+				for(var n=0;n<data[m].length-1;n++){
+					if(data[m][n]>data[m][n+1]){
+						data[m][n+1] = data[m][n];
+					}
+				}
+				max_data[m] = data[m][data[m].length-1];
+			}else{
+				max_data[m] = 0;
+			}
+		}
+		return max_data;
+	}
+	function getDataAll(){
+		for(var i=0;i<data_goods_all[3].length;i++){
+			data_all_l1[i] = getPositionCoord(data_goods_all[3][i],data_max_array[i],r_array[i],data_goods_all[1][i]);
+		}
+	}
+	// 高亮显示
+	function dataHighlightTl(){
+	    t_l_1_myoption1.dispatchAction({
+	        type: 'highlight',
+	    });
+	}
+	// 取消高亮显示
+	function dataDownplayTl(){
+	    t_l_1_myoption1.dispatchAction({
+	        type: 'downplay',
+	    });
+	}
+	// 气泡图
+	// position_num:位置和数据，byid:元素对象,num:第几个，class_name:类名称,size_array:最大值，
+	function geologyScatter(position_num,byid,num){
+		var series = [];
+		series.push({
+            name: data_goods_all[1][num],
+            type: 'scatter',
+            itemStyle: {
+                normal: {
+                	color: '#2a6ae2',
+                    opacity: 1,
+                }
+            },
+            label: {
+                normal: {
+                    show: true,
+                    fontSize: 24,
+                    formatter: function (val) {
+	                    return val.data[2] +'\n'+val.data[3];
+	                },
+                },
+            },
+            data: position_num
+        })
+		var option = {
+		    grid: {
+		        x: max_r/2,
+		        x2: max_r/2,
+		        y: max_r/2,
+		        y2: max_r/2
+		    },
+		    xAxis: {
+		        type: 'value',
+		        max: max_x,
+		        splitLine: {
+		            show: false
+		        },
+		        axisLine: {
+		            show:false
+		        },
+		        axisTick:{
+		            show:false
+		        },
+		        axisLabel:{
+		            show:false
+		        }
+		    },
+		    yAxis: {
+		        type: 'value',
+		        max: max_y,
+		        axisLine: {
+		            show:false
+		        },
+		        splitLine: {
+		            show: false
+		        },
+		        axisTick:{
+		            show:false
+		        },
+		        axisLabel:{
+		            show:false
+		        }
+		    },
+		    visualMap: {
+		        show:false,
+		        dimension: 2,
+		        min: 0,
+		        max: data_max_array[num],
+		        inRange: {
+		            symbolSize: [min_r, max_r]
+		        },
+		   	},
+		    series: series,
+		};
+			t_l_1_option1 = option;
+			t_l_1_myoption1 = echarts.init(document.getElementById(byid));
+	}
+			              
+</script>

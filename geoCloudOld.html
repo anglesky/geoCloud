@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>地质云 GeoCloud</title>
+		<meta name="keywords" content="Javascript" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/echarts.min.js"></script>
+		<script type="text/javascript" src="js/china.js"></script>
+		<script type="text/javascript" src="js/geoCloud.js"></script>
+		<script type="text/javascript" src="js/geoCloudLeft.js"></script>
+		<script type="text/javascript" src="js/geoCloudRight.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/geoCloud.css">
+		<link type="text/css" rel="stylesheet" href="css/geoCloudLeft.css">
+		<link type="text/css" rel="stylesheet" href="css/geoCloudRight.css">
+	</head>
+	<body>
+		<div class="GeoCloud">
+			<div class="header-title"></div>
+			<div class="main-container">
+				<div class="LeftPart Left">
+					<div class="left-1-bar">
+						<div class="j-left-top"></div>
+						<div class="j-left-bottom"></div>
+						<div class="j-right-top"></div>
+						<div class="j-right-bottom"></div>
+						<div class="l-1-title">
+							<div class="bar-title-left">
+								<span class="bar-title-leftimg"></span>
+								<span class="bar-title-lefttext">地质信息产品</span>
+							</div>
+							<span class="l-1-title-num"></span>
+							<span class="l-1-title-text">产品总数</span>
+						</div>
+						<div class="l-1-1" id="l-1-1"></div>
+						<div class="l-1-2" id="l-1-2"></div>
+						<div class="l-1-3" id="l-1-3"></div>
+						<div class="lable-div">
+							<div class="l-lable lable0"><div></div><span></span></div>
+							<div class="l-lable lable1"><div></div><span></span></div>
+							<div class="l-lable lable2"><div></div><span></span></div>
+							<div class="l-lable lable3"><div></div><span></span></div>
+							<div class="l-lable lable4"><div></div><span></span></div>
+							<div class="l-lable lable5"><div></div><span></span></div>
+							<div class="l-lable lable6"><div></div><span></span></div>
+						</div>
+					</div>
+					<div id="productUpdate">
+						<div class="triger triger-left-top"></div>
+						<div class="triger triger-right-top"></div>
+						<div class="triger triger-left-bottom"></div>
+						<div class="triger triger-right-bottom"></div>
+						<div class="leftTitle"><span>产品更新</span></div>
+						<div id="productMap"></div>
+					</div>
+					<div class="left-3-bar">
+						<div class="j-left-top"></div>
+						<div class="j-left-bottom"></div>
+						<div class="j-right-top"></div>
+						<div class="j-right-bottom"></div>
+						<div class="l-3-title">
+							<div class="bar-title-left">
+								<span class="bar-title-leftimg"></span>
+								<span class="bar-title-lefttext">产品服务量</span>
+							</div>
+							<span class="l-3-title-num"></span>
+							<span class="l-3-title-text">访问总次数</span>
+						</div>
+						<ul class="banner">
+							<li class="fw fw1 active"><div class="l-3" id="l-3-1"></div>
+							</li>
+							<li class="fw fw2"><div class="l-3" id="l-3-2"></div>
+							</li>
+							<li class="fw fw3"><div class="l-3" id="l-3-3"></div>
+							</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="MainPart Left">
+					<div class="topData">
+						<div class="Left Data">
+							<div class="title">系统接入量</div>
+							<div class="Num" id="SysIn">
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+							</div>
+						</div>
+						<div class="Right Data">
+							<div class="title">访问统计量</div>
+							<div class="Num" id="Visit">
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="num-item">0</span>
+								<span class="unit">万</span>
+							</div>
+							<div class="otherData" id="otherData">
+								<div class="users Left business">业务用户：<span>0</span></div>
+								<div class="users Right internet" style="margin-right:32px;">互联网用户：<span>0</span></div>
+							</div>
+						</div>
+					</div>
+					<div id="Map" class="Map"></div>
+					<div id="cloudDisk">
+						<div class="triger triger-left-top"></div>
+						<div class="triger triger-right-top"></div>
+						<div class="triger triger-left-bottom"></div>
+						<div class="triger triger-right-bottom"></div>
+						<div class="title">云桌面<span class="total-count"></span></div>
+						<div id="softType"></div>
+						<div class="online-users">
+							<div class="title">在线使用人数</div>
+							<div class="user-list">
+								
+							</div>
+						</div>
+					</div>
+					<div id="rateDatas">
+						<div class="rateTable dataVisitRate">
+							<div class="triger triger-left-top"></div>
+							<div class="triger triger-right-top"></div>
+							<div class="triger triger-left-bottom"></div>
+							<div class="triger triger-right-bottom"></div>
+							<div class="title">数据访问压力与频率</div>
+							<div id="DataPress" class="gauge"></div>
+							<div id="DataRate" class="line"></div>
+						</div>
+						<div class="rateTable productVisitRate">
+							<div class="triger triger-left-top"></div>
+							<div class="triger triger-right-top"></div>
+							<div class="triger triger-left-bottom"></div>
+							<div class="triger triger-right-bottom"></div>
+							<div class="title">产品访问压力与频率</div>
+							<div id="ProductPress" class="gauge"></div>
+							<div id="ProductRate" class="line"></div>
+						</div>
+						<div class="rateTable appVisitRate">
+							<div class="triger triger-left-top"></div>
+							<div class="triger triger-right-top"></div>
+							<div class="triger triger-left-bottom"></div>
+							<div class="triger triger-right-bottom"></div>
+							<div class="title">应用访问压力与频率</div>
+							<div id="AppPress" class="gauge"></div>
+							<div id="AppRate" class="line"></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="RightPart Left">
+					<div class="right-1-bar">
+						<div class="j-left-top"></div>
+						<div class="j-left-bottom"></div>
+						<div class="j-right-top"></div>
+						<div class="j-right-bottom"></div>
+						<div class="r-1-title">
+							<div class="bar-title-left">
+								<span class="bar-title-leftimg"></span>
+								<span class="bar-title-lefttext">节点服务关系图</span>
+							</div>
+							<span class="r-1-title-num"></span>
+							<span class="r-1-title-text">数据总量</span>
+						</div>
+						<ul class="banner">
+							<li class="right-1"><div class="r-1" id="r-1-1"></div>
+							</li>
+						</ul>
+					</div>
+					<div class="right-2-bar">
+						<div class="j-left-top"></div>
+						<div class="j-left-bottom"></div>
+						<div class="j-right-top"></div>
+						<div class="j-right-bottom"></div>
+						<div class="bar-title-left">
+							<span class="bar-title-leftimg"></span>
+							<span class="bar-title-lefttext">地质调查专业数据</span>
+						</div>
+						<ul class="banner">
+							<li class="right-2"><div class="r-2" id="r-2-1"></div></li>
+						</ul>
+						<!-- <div class="bar-num">
+							<p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
+						</div> -->
+					</div>
+					<div class="right-3-bar">
+						<div class="j-left-top"></div>
+						<div class="j-left-bottom"></div>
+						<div class="j-right-top"></div>
+						<div class="j-right-bottom"></div>
+						<div class="bar-title-left">
+							<span class="bar-title-leftimg"></span>
+							<span class="bar-title-lefttext">数据服务与访问实时监控</span>
+						</div>
+						<ul class="banner">
+							<li class="fw fw1 active"><div class="r-3" id="r-3-1"></div>
+							</li>
+							<li class="fw fw2"><div class="r-3" id="r-3-2"></div>
+							</li>
+							<li class="fw fw3"><div class="r-3" id="r-3-3"></div>
+							</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<input type="hidden" id="sysInNum" value="0">
+		<input type="hidden" id="VisitNum" value="0">
+	</body>
+</html>

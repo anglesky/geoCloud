@@ -52,10 +52,10 @@ $(function(){
 	},2000);
 	
 	
-	calculateScale();
-	$(window).resize(function(){
-		calculateScale();
-	})
+	// calculateScale();
+	// $(window).resize(function(){
+	// 	calculateScale();
+	// })
 	
 })
 
@@ -74,8 +74,8 @@ function MainPartMap(BJData){
 
 		var convertData = function (data) {
 			var res = [];
-			// for (var i = 0; i < data.length; i++) {
-				var dataItem = data;
+			for (var i = 0; i < data.length; i++) {
+				var dataItem = data[i];
 				var fromCoord = geoCoordMap[dataItem[0].name];
 				var toCoord = geoCoordMap[dataItem[1].name];
 				if (fromCoord && toCoord) {
@@ -85,72 +85,67 @@ function MainPartMap(BJData){
 						coords: [fromCoord, toCoord]
 					});
 				}
-			// }
+			}
 			return res;
 		};
 
 		var color = ['#a6c84c'];
-		var series = [], totalDatas = [], seriesIndex = 0, MapTimer;
-		[['发展中心', BJData]].forEach(function (item, i) {
-			for (var j = 0; j < item[1].length; j++) {
-				totalDatas.push(item[1][j].value);
-				series.push(
-					{
-						name: item[0] + ' No.1',
-						type: 'lines',
-						zlevel: 1,
-						effect: {
-							show: false,
-							period: 2,
-							trailLength: 0.3,
-							color: 'white',
-							symbolSize: 4
-						},
-						lineStyle: {
-							normal: {
-								opacity: 0,
-								color: color[i],
-								width: 0,
-								curveness: 0.2
-							}
-						},
-						data: convertData(item[1][j])
-					},
-					{
-						type: 'effectScatter',
-						coordinateSystem: 'geo',
-						zlevel: 2,
-						rippleEffect: {
-							period: 4,
-							scale: 4,
-							brushType: 'stroke',
-						},
-						label: {
-							normal: {
-								show: false,
-								position: 'right',
-								formatter: '{b}'
-							}
-						},
-						symbolSize: function(val){
-							return val[2]/3;
-						},
-						itemStyle: {
-							normal: {
-								color: '#35A7E8',
-								borderColor: '#35A7E8'
-							}
-						},
-						data:
-						item[1][j].map(function (dataItem) {
-							return {
-								name: dataItem.name,
-								value: geoCoordMap[dataItem.name].concat([dataItem.value])
-							};
-						})
+		var series = [];
+		[['国土资源部', BJData]].forEach(function (item, i) {
+			series.push({
+				name: item[0] + ' No.1',
+				type: 'lines',
+				zlevel: 1,
+				effect: {
+					show: true,
+					period: 6,
+					trailLength: 0.3,
+					color: 'white',
+					symbolSize: 4
+				},
+				lineStyle: {
+					normal: {
+						opacity: 0,
+						color: color[i],
+						width: 0,
+						curveness: 0.2
 					}
-				);
-			};
+				},
+				data: convertData(item[1])
+			},
+			{
+				type: 'effectScatter',
+				coordinateSystem: 'geo',
+				zlevel: 2,
+				rippleEffect: {
+					period: 4,
+					scale: 4,
+					brushType: 'stroke',
+				},
+				label: {
+					normal: {
+						show: false,
+						position: 'right',
+						formatter: '{b}'
+					}
+				},
+				symbolSize: function(val){
+					return val[2]/4;
+				},
+				itemStyle: {
+					normal: {
+						color: '#35E0E8',
+						borderColor: '#35E0E8'
+					}
+				},
+				data:
+				item[1].map(function (dataItem) {
+					return {
+						name: dataItem[0].name + ' ' + dataItem[0].value,
+						value: geoCoordMap[dataItem[0].name].concat([dataItem[0].value])
+					};
+				})
+			});
 		});
 
 		mapOption = {
@@ -171,7 +166,7 @@ function MainPartMap(BJData){
 				top: 'bottom',
 				left: 'right',
 				show: false,
-				data:['发展中心 No.1'],
+				data:['国土资源部 No.1'],
 				textStyle: {
 					color: '#fff'
 				},
@@ -185,7 +180,7 @@ function MainPartMap(BJData){
 					}
 				},
 				top:70,
-				left:320,
+				left:420,
 				zoom: 1.2,
 				roam: true,
 				itemStyle: {
@@ -201,73 +196,7 @@ function MainPartMap(BJData){
 			series: series
 		};
 		M1 = echarts.init(document.getElementById('Map'));
-		animateShowLabel();
 		M1.setOption(mapOption);
-
-		MapTimer = setInterval(function(){
-		 	animateShowLabel();
-		 },500);
-
-		function animateShowLabel(){
-			for (var i = 0; i < totalDatas.length; i++) {
-				if (seriesIndex == i) {
-					seriesIndexStart = seriesIndex*2;
-					mapOption.series[seriesIndexStart].effect.show = true;
-					mapOption.series[seriesIndexStart+1].itemStyle.normal.color = '#FFF600';
-					mapOption.series[seriesIndexStart+1].zlevel = 3;
-					mapOption.series[seriesIndexStart+1].itemStyle.normal.borderColor = '#FFF600';
-					mapOption.series[seriesIndexStart+1].label.normal.show = true;
-					if (i>0) {
-						var item_str = '<div class="item">'+
-								'<div class="unit-name fromData Left"><span>'+mapOption.series[seriesIndexStart+1].data[0].name+'</span></div>'+
-								'<div class="unit-name toData Right"><span>'+mapOption.series[1].data[0].name+'</span></div>'+
-							'</div>'
-						$('.mapDataInfoList .items').append(item_str);
-						var marginV = '-' + i*43;
-						$('.mapDataInfoList .items').animate({'marginTop': marginV+'px'}, 1000, 'swing');
-					};
-					
-				};
-			};
-			
-			M1.setOption(mapOption);
-			if ((totalDatas.length - 1) == seriesIndex) {
-				for (var i = 0; i < totalDatas.length; i++) {
-					seriesIndexStart = i*2;
-					// mapOption.series[seriesIndexStart].effect.show = true;
-				}
-				// M1.setOption(mapOption);
-		 		clearInterval(MapTimer);
-		 	};
-			seriesIndex +=1;
-		}
-		var lastLabel = 0;
-		// setInterval()
-		lastLabelAnimate();
-		function lastLabelAnimate(){
-			var newTimer = setInterval(function(){
-				var totalNum =  $('.mapDataInfoList .items .item').length;
-				var currMarginTop = -(totalNum -3)*43;
-				if (currMarginTop >= parseInt($('.mapDataInfoList .items').css('margin-top'))) {
-					newAnimate();
-				};
-			},1000);
-			function newAnimate(){
-				for (var i = 0; i < 3; i++) {
-					if (i == lastLabel) {
-						var marginTop = parseInt($('.mapDataInfoList .items').css('margin-top')) - 43;
-						$('.mapDataInfoList .items').animate({'marginTop': marginTop+'px'}, 1000, 'swing');
-						console.log(marginTop);
-					};
-					if (lastLabel == 2) {
-						clearInterval(newTimer);
-					};
-				};
-				lastLabel+=1;
-			}
-			
-			
-		}
 }
 
 function cloudDiskData(data){

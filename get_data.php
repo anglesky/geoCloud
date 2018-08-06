@@ -119,7 +119,8 @@ if($act =='get_map'){
 		$sql = 'select node_name,node_coordinate,node_info from main';
 		$result = $pdo_sql->run_query($sql);
 		foreach ($result as $key => $value) {
-			$info[] = array(0=>array('name'=>urlencode('国土资源部')),1=>array('name'=>urlencode($value['node_name']),'value'=>$value['node_info']));
+			// $info[] = array(0=>array('name'=>urlencode('国土资源部')),1=>array('name'=>urlencode($value['node_name']),'value'=>$value['node_info']));
+			$info[] = array(0=>array('name'=>urlencode($value['node_name']),'value'=>$value['node_info']),1=>array('name'=>urlencode('发展中心')));
 		}
 		//echo json_encode($info,JSON_UNESCAPED_SLASHES);
 		header('Content-Type:text/plain;charset=utf-8');
@@ -193,6 +194,71 @@ if($act =='get_map'){
 		foreach ($result as $key => $value) {
 			$info[] = array(urlencode($value['node_name'])=>array('visit'=>$value['visit_num']+rand(-300,300)));
 			$total = $total + $value['visit_num'];
+		}
+		$info['total'] = $total;
+		header('Content-Type:text/plain;charset=utf-8');
+		echo urldecode(json_encode($info));		
+}elseif ($act == 'get_prod_update') {
+
+		$info = array();
+		$sql = 'select node_name,node_info from prod_update';
+		$result = $pdo_sql->run_query($sql);
+		foreach ($result as $key => $value) {
+			$types = json_decode($value['node_info']);
+			$children = array();
+			foreach ($types as $k => $v) {
+				$children[] = array('value'=>$v,'type'=>urlencode($k));
+			}
+			$info[] = array(
+				0 => array('name'=>urlencode('国土资源部')),
+				1=>array(
+					'name'=>urlencode($value['node_name']),
+					'children'=>$children));
+		}
+		header('Content-Type:text/plain;charset=utf-8');
+		echo urldecode(json_encode($info));		
+}elseif ($act == 'get_geo_dbs') {
+
+		$info = array();
+		$sql = 'select db_name,info from geo_databases';
+		$result = $pdo_sql->run_query($sql);
+		foreach ($result as $key => $value) {
+
+			$info[] = array('db_name'=>urlencode($value['db_name']),'info'=>$value['info']);
+		}
+		header('Content-Type:text/plain;charset=utf-8');
+		echo urldecode(json_encode($info));		
+}elseif ($act == 'get_geo_info_prod') {
+
+		$info = array();
+		$sql = 'select geo_info_prod_id,geo_info_prod_name,parent_id,num from geo_info_prod';
+		$result = $pdo_sql->run_query($sql);
+		foreach ($result as $key => $value) {
+			if($value['parent_id']=='-1'){
+				$info[0][] = urlencode($value['geo_info_prod_name']);
+			}else{
+				$info[1][$value['parent_id']-1][] = urlencode($value['geo_info_prod_name']);
+				$info[3][$value['parent_id']-1][] = $value['num']+rand(-5,10);
+			}
+			
+		}
+		foreach ($info[3] as $key => $value) {
+			$info[2][] = array_sum($value);
+		}
+		$info['total'] = array_sum($info[2]);
+		header('Content-Type:text/plain;charset=utf-8');
+		echo urldecode(json_encode($info));		
+}elseif ($act == 'get_node_relationship') {
+
+		$info = array();
+		$sql = 'select node_name,`usage`,type from node_server_relationship';
+		$result = $pdo_sql->run_query($sql);
+		$total = 0;
+		foreach ($result as $key => $value) {
+			$info[0][] = urlencode($value['node_name']); 
+			$info[1][] = $value['usage'];
+			$info[2][] = $value['type'];
+			$total = $total + $value['usage'];
 		}
 		$info['total'] = $total;
 		header('Content-Type:text/plain;charset=utf-8');

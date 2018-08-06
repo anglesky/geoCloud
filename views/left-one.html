@@ -1,0 +1,638 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>地质云 GeoCloud</title>
+
+	<meta name="keywords" content="Javascript" />
+
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/echarts.min.js"></script>
+	<script type="text/javascript" src="../js/china.js"></script>
+	<script type="text/javascript" src="../js/geoCloud3.js"></script>
+	<link type="text/css" rel="stylesheet" href="../css/geoCloud.css">
+</head>
+<style type="text/css">
+	body,ul,li{
+		margin: 0px;
+		padding: 0px;
+	}
+	ul{
+		list-style: none;
+	}
+	.left-1-bar {
+		width: 1010px;
+		height: 528px;
+		border: 1px solid #5186ff;
+		box-shadow: inset 0px 0px 20px #5a3cca;
+		position: relative;
+		background-color: #1e1753;
+	}
+	.j-left-top {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -1px;
+		left: -1px;
+		background: url(../images/j_left_top.png);
+	}
+	.j-left-bottom {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		bottom: -1px;
+		left: -1px;
+		background: url(../images/j_left_bottom.png);
+	}
+	.j-right-top {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -1px;
+		right: -1px;
+		background: url(../images/j_right_top.png);
+	}
+	.j-right-bottom {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		bottom: -1px;
+		right: -1px;
+		background: url(../images/j_right_bottom.png);
+	}
+	.left-1-bar .banner {
+		position: relative;
+		height: 240px;
+		width: 100%; 
+		margin-top: 60px;
+	}
+    .l-1-title {
+    	overflow: hidden;
+    }
+    .l-1-title .l-1-title-num {
+    	display: inline-block;
+    	min-width: 150px;
+    	height: 60px;
+    	line-height: 60px;
+    	font-size: 30px;
+    	float: right;
+    	margin: 24px 24px 0px 0px;
+    	padding: 0px 10px 0px 10px;
+    	text-align: center;
+    	color: #fee55a;
+    	border: 1px solid #3f61c2;
+    	border-radius:3px 3px 3px 3px
+    }
+    .l-1-title .l-1-title-text {
+    	display: block;
+    	width: 85px;
+    	height: 30px;
+    	line-height: 30px;
+    	font-size: 18px;
+    	float: right;
+    	margin-top: 70px;
+    	text-align: center;
+    	color: #fee55a;
+    	background-color: #1e1753;
+    }
+    #l-1-1 {
+    	margin-top: 14px;
+    	margin-left: 24px;
+    	float: left;
+    	height: 365px;
+    	width: 330px;
+    }
+    #l-1-2 {
+    	margin-top: 14px;
+    	float: left;
+    	height: 300px;
+    	width: 300px;
+    }
+    #l-1-3 {
+    	margin-top: 14px;
+    	float: left;
+    	height: 365px;
+    	width: 330px;
+    }
+    .bar-title-left {
+    	float: left;
+    }
+    .bar-title-left .bar-title-leftimg{
+		height: 28px;
+		width: 88px;
+		display: inline-block;
+		background: url(../images/navi.png) no-repeat 0 center;
+		margin: 8px 0px 0px 8px;
+	}
+	.bar-title-left .bar-title-lefttext{
+		display: inline-block;
+		text-align: left;
+		font-size: 32px;
+		color: #FEE55A;
+	}
+</style>
+<body>
+	<div class="left-1-bar">
+		<div class="j-left-top"></div>
+		<div class="j-left-bottom"></div>
+		<div class="j-right-top"></div>
+		<div class="j-right-bottom"></div>
+		<div class="l-1-title">
+			<div class="bar-title-left">
+				<span class="bar-title-leftimg"></span>
+				<span class="bar-title-lefttext">地质信息产品</span>
+			</div>
+			<span class="l-1-title-num">1</span>
+			<span class="l-1-title-text">产品总数</span>
+		</div>
+		<div class="l-1-1" id="l-1-1"></div>
+		<div class="l-1-2" id="l-1-2"></div>
+		<div class="l-1-3" id="l-1-3"></div>
+		<ul class="banner">
+			<li class="left-1">
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+
+	var data_goods_count = 0;
+	var data_goods_all = [
+		['数据','出版物','软件','地学科普','地质园','技术方法与标准','仪器设备'],
+		[['基础地质','能源','矿产','地质环境','水资源','物/化/遥','地质环境','水资源','物/化/遥','地质环境','水资源','物/化/遥'],['基础地质','能源','矿产','地质环境','水资源','物/化/遥'],['能源','矿产','地质环境','水资源','物/化/遥'],['能源','矿产','地质环境','水资源','物/化/遥'],['能源'],['能源','地质环境','水资源','物/化/遥'],['能源','矿产']],
+		[[234,2321,34,5656,213,123,323,34,5656,213,123,323],[234,2321,34,5656,213,123],[2321,34,5656,223,123],[2321,34,5656,223,123],[2321],[2321,34,5656,213],[2321,34]
+		]
+	];
+	var l_1_2_piedata = [
+		        {
+		            "type": 1,
+		            "name": "数据",
+		            "total": 20454402,
+		        },
+		        {
+		            "type": 2,
+		            "name": "出版物",
+		            "total": 2719778,
+		        },
+		        {
+		            "type": 3,
+		            "name": "软件",
+		            "total": 29664750,
+		        },
+		        {
+		            "type": 4,
+		            "name": "地学科普",
+		            "total": 2249994,
+		        },
+		        {
+		            "type": 5,
+		            "name": "地质园",
+		            "total": 33943331,
+		        },
+		        {
+		            "type": 6,
+		            "name": "技术方法与标准",
+		            "total": 33943331,
+		        },
+		        {
+		            "type": 7,
+		            "name": "仪器设备",
+		            "total": 33943331,
+		        },
+		    ];
+	var sure_position = getSurePosition(data_goods_all);
+	// 统计
+	$('.l-1-title-text').css('margin-right',-(20+$('.l-1-title-num').width()+$('.l-1-title-text').width())/2);
+	// 定时刷新
+	setInterval(function(){
+		$('.l-1-title .l-1-title-num').text(numAddComma(Math.ceil(Math.random()*1234560000).toString()));
+		$('.l-1-title-text').css('margin-right',-(20+$('.l-1-title-num').width()+$('.l-1-title-text').width())/2);
+		var position_and_data = getPositionAndData(sure_position,data_goods_all);
+		geologyScatter(position_and_data[0],'l-1-1',data_goods_count%7,position_and_data[2]);
+		geologyScatter(position_and_data[1],'l-1-3',data_goods_count%7,position_and_data[2]);
+		data_goods_count++;
+
+	},1000);
+	geologyGoodsPie(l_1_2_piedata);
+
+	// 生成随机位置数组7*9*2
+	function getPosition(){
+		var num = new Array();
+		for(var i=0;i<7;i++){
+			num[i] = new Array();
+			for(var j=0;j<9;j+=3){
+				num[i][j] = new Array();
+				num[i][j+1] = new Array();
+				num[i][j+2] = new Array();
+				num[i][j][0] = Math.random()*29;
+				num[i][j+1][0] = num[i][j][0]+80+Math.random()*29;
+				num[i][j+2][0] = num[i][j+1][0]+80+Math.random()*29;
+				if(j > 0){
+					num[i][j][1] = num[i][j-3][1]+80+Math.random()*41;
+					num[i][j+1][1] = num[i][j-2][1]+80+Math.random()*41;
+					num[i][j+2][1] = num[i][j-1][1]+80+Math.random()*41;
+				}else{
+					num[i][j][1] = Math.random()*41;
+					num[i][j+1][1] = Math.random()*41;
+					num[i][j+2][1] = Math.random()*41;
+				}
+			}
+		}
+		return num;
+	}
+	// 获取确定的坐标
+	function getSurePosition(data_goods){
+		var data_count_left = new Array();
+		var data_count_right = new Array();
+		var data_count = '';
+		var data_position_left = getPosition();
+		var data_position_right = getPosition();
+		var data_position_l = new Array();
+		var data_position_r = new Array();
+		var data_position = new Array();
+		for(var ii=0;ii<data_goods[1].length;ii++){
+			// 获取左右两边的个数
+			data_count = data_goods[1][ii].length;
+			data_count_left[ii] = Math.ceil(data_count/2);
+			data_count_right[ii] = data_count-data_count_left[ii];
+			data_position_l[ii] = getArrayItems(data_position_left[ii],data_count_left[ii]);
+			data_position_r[ii] = getArrayItems(data_position_right[ii],data_count_right[ii]);
+
+		}
+		data_position = [data_position_l,data_position_r];
+		
+		return data_position;
+	}
+	
+	// 把数据库数据和确定好的地址数据组合一起
+	function getPositionAndData (sure_position,data_goods_all) {
+		var position_data = new Array();
+		var max_data = new Array();
+		var max_data_l = new Array();
+		var max_data_r = new Array();
+	    for (var index in sure_position) {
+	        position_data.push(sure_position[index]);
+	    }
+		for(var i=0;i<position_data.length;i++){
+			if(i > 0){
+				for(var j=0;j<position_data[i].length;j++){
+					for(var k=0;k<position_data[i][j].length;k++){
+						position_data[i][j][k][2] = data_goods_all[2][j][position_data[0][j].length+k];
+						position_data[i][j][k][3] = data_goods_all[1][j][position_data[0][j].length+k];
+					}
+				}
+			}else{
+				for(var j=0;j<position_data[i].length;j++){
+					for(var k=0;k<position_data[i][j].length;k++){
+						position_data[i][j][k][2] = data_goods_all[2][j][k];
+						position_data[i][j][k][3] = data_goods_all[1][j][k];
+					}
+				}
+			}
+		}
+		max_data_l = getMaxBydata(position_data[0]);
+		max_data_r = getMaxBydata(position_data[1]);
+		for(var max_n=0;max_n<max_data_l.length;max_n++){
+			if(max_data_l[max_n]>max_data_r[max_n]){
+				max_data[max_n] = max_data_l[max_n];
+			}else{
+				max_data[max_n] = max_data_r[max_n];
+			}
+		}
+		position_data[2] = max_data;
+		// console.log(position_data)
+		return position_data;
+	}
+	function getMaxBydata (data_array) {
+	    var arr = JSON.stringify(data_array);
+		var data = $.parseJSON(arr);
+		var max_data = new Array();
+		for(var m=0;m<data.length;m++){
+			if(data[m].length>0){
+				for(var n=0;n<data[m].length-1;n++){
+					if(data[m][n][2]>data[m][n+1][2]){
+						data[m][n+1][2] = data[m][n][2];
+					}
+				}
+				max_data[m] = data[m][data[m].length-1][2];
+			}else{
+				max_data[m] = 0;
+			}
+		}
+		return max_data;
+	}
+
+	// 从一个给定的数组arr中,随机返回num个不重复项
+	function getArrayItems(arr, num) {
+	    //新建一个数组,将传入的数组复制过来,用于运算,而不要直接操作传入的数组;
+	    var arr1 = JSON.stringify(arr);
+		var temp_array = $.parseJSON(arr1);
+	    //取出的数值项,保存在此数组
+	    var return_array = new Array();
+	    for (var i = 0; i<num; i++) {
+	        //判断如果数组还有可以取出的元素,以防下标越界
+	        if (temp_array.length>0) {
+	            //在数组中产生一个随机索引
+	            var arrIndex = Math.floor(Math.random()*temp_array.length);
+	            //将此随机索引的对应的数组元素值复制出来
+	            return_array[i] = temp_array[arrIndex];
+	            //然后删掉此索引的数组元素,这时候temp_array变为新的数组
+	            temp_array.splice(arrIndex, 1);
+	        } else {
+	            //数组中数据项取完后,退出循环,比如数组本来只有10项,但要求取出20项.
+	            break;
+	        }
+	    }
+	    return return_array;
+	}
+	// 数字每３个增加逗号
+	function numAddComma(str){
+		return str.split('').reverse().join('').replace(/(\d{3})/g,'$1,').replace(/\,$/,'').split('').reverse().join('');
+	}
+	// 气泡图
+	function geologyScatter(position_num,byid,select_num,size_array){
+		var myChart = echarts.init(document.getElementById(byid));
+		var opacity_num = [0.3,0.3,0.3,0.3,0.3,0.3,0.3];
+		var normal_show_type = [false,false,false,false,false,false,false];
+		opacity_num[select_num] = 1;
+		normal_show_type[select_num] = true;
+		option = {
+		    color: [
+		        '#2f54ba', '#4a75ed','#0a814d', '#21d1ba', '#6d4aed', '#d5b545', '#81d279'
+		    ],
+		    grid: {
+		        x: 40,
+		        x2: 40,
+		        y: 40,
+		        y2: 40
+		    },
+		    xAxis: {
+		        type: 'value',
+		        max: 250,
+		        splitLine: {
+		            show: false
+		        },
+		        axisLine: {
+		            show:false
+		        },
+		        axisTick:{
+		            show:false
+		        },
+		        axisLabel:{
+		            show:false
+		        }
+		    },
+		    yAxis: {
+		        type: 'value',
+		        max: 285,
+		        axisLine: {
+		            show:false
+		        },
+		        splitLine: {
+		            show: false
+		        },
+		        axisTick:{
+		            show:false
+		        },
+		        axisLabel:{
+		            show:false
+		        }
+		    },
+		    visualMap: {
+		        show:false,
+		        dimension: 2,
+		        min: 0,
+		        max: size_array[select_num],
+		        inRange: {
+		            symbolSize: [35, 80]
+		        },
+		   	},
+		    series: [
+		        {
+		            name: '数据',
+		            type: 'scatter',
+		            itemStyle: {
+		                normal: {
+		                    opacity: opacity_num[0],
+		                }
+		            },
+		            label: {
+		                normal: {
+		                    show: normal_show_type[0],
+		                    textStyle: {
+		                        fontSize: 14
+		                    },
+		                    formatter: function (val) {
+			                    return val.data[2] +'\n'+val.data[3];
+			                },
+		                },
+		            },
+		            data: position_num[0]
+		        },
+		        {
+		            name: '出版物',
+		            type: 'scatter',
+		            itemStyle: {
+		                normal: {
+		                    opacity: opacity_num[1],
+		                }
+		            },
+		            label: {
+		                normal: {
+		                    show: normal_show_type[1],
+		                    textStyle: {
+		                        fontSize: 14
+		                    },
+		                    formatter: function (val) {
+			                    return val.data[2] +'\n'+val.data[3];
+			                },
+		                },
+		            },
+		            data: position_num[1]
+		        },
+		        {
+		            name: '软件',
+		            type: 'scatter',
+		            itemStyle: {
+		                normal: {
+		                    opacity: opacity_num[2],
+		                }
+		            },
+		            label: {
+		                normal: {
+		                    show: normal_show_type[2],
+		                    textStyle: {
+		                        fontSize: 14
+		                    },
+		                    formatter: function (val) {
+			                    return val.data[2] +'\n'+val.data[3];
+			                },
+		                },
+		            },
+		            data: position_num[2]
+		        },
+		        {
+		            name: '地学科普',
+		            type: 'scatter',
+		            itemStyle: {
+		                normal: {
+		                    opacity: opacity_num[3],
+		                }
+		            },
+		            label: {
+		                normal: {
+		                    show: normal_show_type[3],
+		                    textStyle: {
+		                        fontSize: 14
+		                    },
+		                    formatter: function (val) {
+			                    return val.data[2] +'\n'+val.data[3];
+			                },
+		                },
+		            },
+		            data: position_num[3]
+		        },
+		        {
+		            name: '地质园',
+		            type: 'scatter',
+		            itemStyle: {
+		                normal: {
+		                    opacity: opacity_num[4],
+		                }
+		            },
+		            label: {
+		                normal: {
+		                    show: normal_show_type[4],
+		                    textStyle: {
+		                        fontSize: 14
+		                    },
+		                    formatter: function (val) {
+			                    return val.data[2] +'\n'+val.data[3];
+			                },
+		                },
+		            },
+		            data: position_num[4]
+		        },
+		        {
+		            name: '技术方法与标准',
+		            type: 'scatter',
+		            itemStyle: {
+		                normal: {
+		                    opacity: opacity_num[5],
+		                }
+		            },
+		            label: {
+		                normal: {
+		                    show: normal_show_type[5],
+		                    textStyle: {
+		                        fontSize: 14
+		                    },
+		                    formatter: function (val) {
+			                    return val.data[2] +'\n'+val.data[3];
+			                },
+		                },
+		            },
+		            data: position_num[5]
+		        },
+		        {
+		            name: '仪器设备',
+		            type: 'scatter',
+		            itemStyle: {
+		                normal: {
+		                    opacity: opacity_num[6],
+		                }
+		            },
+		            label: {
+		                normal: {
+		                    show: normal_show_type[6],
+		                    textStyle: {
+		                        fontSize: 14
+		                    },
+		                    formatter: function (val) {
+			                    return val.data[2] +'\n'+val.data[3];
+			                },
+		                },
+		            },
+		            data: position_num[6]
+		        }
+		    ]
+		};
+		myChart.setOption(option);
+	}
+	
+	// 统计图(饼状图)
+	function geologyGoodsPie(srcData){
+		var myChart = echarts.init(document.getElementById('l-1-2'));
+		var timeTicket = null;
+		var legendD = [];
+		var data = [];
+		var dataLength = srcData.length;
+		for (var i = 0; i < srcData.length; i++) {
+		    legendD.push(srcData[i].name); //X轴构建
+		    data.push({
+		        value: srcData[i].total,
+		        name: srcData[i].name
+		    }); //Y轴构建
+		}
+		option = {
+		    series: [{
+		        name: '产品总数',
+		        type: 'pie',
+		        radius: '85%',
+		        center: ['50%', '50%'],
+		        clockwise: false,
+		        data: data,
+		        label: {
+		            normal: {
+		                textStyle: {
+		                    color: '#fff',
+		                    fontSize: 16,
+		                },
+		                position: 'inner',
+		            }
+		        },
+		        labelLine: {
+		            normal: {
+		                show: false
+		            }
+		        },
+		        itemStyle: {
+		            emphasis: {
+		                borderWidth: 0,
+		                shadowBlur: 10,
+		                shadowOffsetX: 0,
+		                shadowColor: 'rgba(0, 0, 0, 0.5)'
+		            }
+		        }
+		    }],
+		    color: [ '#2f54ba', '#4a75ed','#0a814d', '#21d1ba', '#6d4aed', '#d5b545', '#81d279'],
+
+		}
+		myChart.setOption(option);
+		timeTicket && clearInterval(timeTicket);
+		var count=0;
+		timeTicket = setInterval(function() {
+		    myChart.dispatchAction({
+		        type: 'downplay',
+		        seriesIndex: 0
+		    });
+		    myChart.dispatchAction({
+		        type: 'highlight',
+		        seriesIndex: 0,
+		        dataIndex: count % 7
+		    });
+		    myChart.dispatchAction({
+		        type: 'showTip',
+		        seriesIndex: 0,
+		        dataIndex: count % 7,
+		    });
+		    count++;
+		}, 1000);
+	}
+		             
+</script>

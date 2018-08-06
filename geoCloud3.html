@@ -4,140 +4,67 @@
 
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<title>地质云 GeoCloud</title>
+		<title>地质云数据组 GeoCloud</title>
 		<meta name="keywords" content="Javascript" />
 		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/number.run.new.js"></script>
 		<script type="text/javascript" src="js/echarts.min.js"></script>
 		<script type="text/javascript" src="js/china.js"></script>
 		<script type="text/javascript" src="js/geoCloud3.js"></script>
-		<script type="text/javascript" src="js/geoCloudLeft.js"></script>
-		<script type="text/javascript" src="js/geoCloudRight.js"></script>
-		<link type="text/css" rel="stylesheet" href="css/geoCloud.css">
-		<link type="text/css" rel="stylesheet" href="css/geoCloudLeft.css">
-		<link type="text/css" rel="stylesheet" href="css/geoCloudRight.css">
+		<script type="text/javascript" src="js/tagCloud.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/geoCloud3.css">
 	</head>
 	<body>
-		<div class="GeoCloud">
+		<div class="GeoCloud" style="-webkit-transform: scale(1);-ms-transform: scale(1);transform: scale(1);transform-origin: 0 0;-ms-transform-origin: 0 0;-webkit-transform-origin: 0 0">
 			<div class="header-title"></div>
+			<div class="topData">
+				<div id="pSNum"></div>
+			</div>
 			<div class="main-container">
-				<div class="LeftPart ">
-					<div class="left-3-bar">
-						<div class="j-left-top"></div>
-						<div class="j-left-bottom"></div>
-						<div class="j-right-top"></div>
-						<div class="j-right-bottom"></div>
-						<div class="l-3-title">
-							<span class="l-3-title-num">1</span>
-							<span class="l-3-title-text">访问总次数</span>
+				<div class="LeftPart Left">
+					<div class="TopPart PartBorder right-1-part">
+						<div class="PartTitle">节点服务关系图</div>
+						<div class="point-server">
+							<div class="r-1" id="r-1-1"></div>
 						</div>
-						<ul class="banner">
-							<li class="fw fw1 active"><div class="l-3" id="l-3-1"></div>
-							</li>
-							<li class="fw fw2"><div class="l-3" id="l-3-2"></div>
-							</li>
-							<li class="fw fw3"><div class="l-3" id="l-3-3"></div>
-							</li>
-						</ul>
 					</div>
-					<div class="clear"></div>
+					<div class="BottomPart PartBorder">
+						<div class="PartTitle">节点状态</div>
+						<div id="point-status">
+							
+						</div>
+					</div>
 				</div>
-				<div class="MainPart ">
-					<div class="topData">
-						<div class="Left Data">
-							<div class="title">系统接入量</div>
-							<div class="Num" id="SysIn">
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-							</div>
-						</div>
-						<div class="Right Data">
-							<div class="title">访问统计量</div>
-							<div class="Num" id="Visit">
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="unit">万</span>
-							</div>
-							<div class="otherData" id="otherData">
-								<div class="users Left business">业务用户：<span>0</span></div>
-								<div class="users Right internet" style="margin-right:32px;">互联网用户：<span>0</span></div>
-							</div>
-						</div>
-					</div>
+				<div class="MainPart Left">
 					<div id="Map" class="Map"></div>
-					<div id="cloudDisk">
-						<div class="triger triger-left-top"></div>
-						<div class="triger triger-right-top"></div>
-						<div class="triger triger-left-bottom"></div>
-						<div class="triger triger-right-bottom"></div>
-						<div class="title">云桌面<span class="total-count"></span></div>
-						<div id="softType"></div>
-						<div class="online-users">
-							<div class="title">在线使用人数</div>
-							<div class="user-list">
-								
-							</div>
-						</div>
-					</div>
-					<div id="rateDatas">
-						<div class="rateTable dataVisitRate">
-							<div class="triger triger-left-top"></div>
-							<div class="triger triger-right-top"></div>
-							<div class="triger triger-left-bottom"></div>
-							<div class="triger triger-right-bottom"></div>
-							<div class="title">数据访问压力与频率</div>
-							<div id="DataPress" class="gauge"></div>
-							<div id="DataRate" class="line"></div>
-						</div>
-						<div class="rateTable productVisitRate">
-							<div class="triger triger-left-top"></div>
-							<div class="triger triger-right-top"></div>
-							<div class="triger triger-left-bottom"></div>
-							<div class="triger triger-right-bottom"></div>
-							<div class="title">产品访问压力与频率</div>
-							<div id="ProductPress" class="gauge"></div>
-							<div id="ProductRate" class="line"></div>
-						</div>
-						<div class="rateTable appVisitRate">
-							<div class="triger triger-left-top"></div>
-							<div class="triger triger-right-top"></div>
-							<div class="triger triger-left-bottom"></div>
-							<div class="triger triger-right-bottom"></div>
-							<div class="title">应用访问压力与频率</div>
-							<div id="AppPress" class="gauge"></div>
-							<div id="AppRate" class="line"></div>
-						</div>
-					</div>
 					<div class="clear"></div>
 				</div>
-				<div class="RightPart ">
-					<div class="right-3-bar">
-						<div class="j-left-top"></div>
-						<div class="j-left-bottom"></div>
-						<div class="j-right-top"></div>
-						<div class="j-right-bottom"></div>
+				<div class="RightPart Left">
+					<div class="TopPart PartBorder">
+						<div class="PartTitle">节点专业数据</div>
+						<div id="point-data"></div>
+					</div>
+					<div class="BottomPart PartBorder right-2-bar">
+						<div class="PartTitle Left">数据服务与访问实时监控</div>
+						<div class="legend Right">
+							<span class="legend-visit Left"></span><span class="visit-text Left">访问次数</span>
+							<span class="legend-server-line Left"></span><span class="legend-server-circle Left"></span><span class="server-text Left">服务个数</span>
+							<div class="clear"></div>
+						</div>
 						<ul class="banner">
-							<li class="fw fw1 active"><div class="r-3" id="r-3-1"></div>
+							<li class="fw fw1 active"><div class="r-2" id="r-2-1"></div>
 							</li>
-							<li class="fw fw2"><div class="r-3" id="r-3-2"></div>
+							<li class="fw fw2"><div class="r-2" id="r-2-2"></div>
 							</li>
-							<li class="fw fw3"><div class="r-3" id="r-3-3"></div>
+							<li class="fw fw3"><div class="r-2" id="r-2-3"></div>
+							</li>
+							<li class="fw fw4"><div class="r-2" id="r-2-4"></div>
 							</li>
 						</ul>
 					</div>
-					<div class="clear"></div>
 				</div>
 				<div class="clear"></div>
 			</div>
 		</div>
-		<input type="hidden" id="sysInNum" value="0">
-		<input type="hidden" id="VisitNum" value="0">
 	</body>
 </html>

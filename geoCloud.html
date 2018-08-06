@@ -3,63 +3,157 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 	<head>
-
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>地质云 GeoCloud</title>
-
-	<meta name="keywords" content="Javascript" />
-
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/echarts.js"></script>
-	<script type="text/javascript" src="js/echartsHome.js"></script>
-	<script type="text/javascript" src="js/china.js"></script>
-	<script type="text/javascript" src="js/geoCloud.js"></script>
-	<script type="text/javascript" src="js/www2/echarts-all.js"></script>
-	<link type="text/css" rel="stylesheet" href="css/geoCloud.css">
-	<link type="text/css" rel="stylesheet" href="css/echartsHome.css">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>地质云 GeoCloud</title>
+		<meta name="keywords" content="Javascript" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/echarts.min.js"></script>
+		<script type="text/javascript" src="js/china.js"></script>
+		<script type="text/javascript" src="js/number.run.new.js"></script>
+		<script type="text/javascript" src="js/marquee.js"></script>
+		<script type="text/javascript" src="js/geoCloud.js"></script>
+		<script type="text/javascript" src="js/geoCloudLeft.js"></script>
+		<script type="text/javascript" src="js/geoCloudRight.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/geoCloud.css">
+		<link type="text/css" rel="stylesheet" href="css/geoCloudLeft.css">
+		<link type="text/css" rel="stylesheet" href="css/geoCloudRight.css">
+		<link type="text/css" rel="stylesheet" href="css/num.run.css">
+		<!-- <link type="text/css" rel="stylesheet" href="css/marquee.css"> -->
 	</head>
 	<body>
-		<div class="GeoCloud">
+		<div class="GeoCloud" style="-webkit-transform: scale(1);-ms-transform: scale(1);transform: scale(1);transform-origin: 0 0;-ms-transform-origin: 0 0;-webkit-transform-origin: 0 0">
 			<div class="header-title"></div>
+			<div class="topData">
+				<div id="pSNum"></div>
+			</div>
 			<div class="main-container">
-				<div class="LeftPart"></div>
-				<div class="MainPart">
-					<div class="topData">
-						<div class="Left Data">
-							<div class="title">系统接入量</div>
-							<div class="Num" id="SysIn">
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-							</div>
+				<div class="LeftPart Left">
+					<div class="TopPart PartBorder geoProductService">
+						<div class="triger triger-left-top"></div>
+						<div class="triger triger-right-top"></div>
+						<div class="triger triger-left-bottom"></div>
+						<div class="triger triger-right-bottom"></div>
+						<div class="part-title-leftimg"></div>
+						<div class="PartTitle">
+							地质产品服务
+							<span class="secondTitle">累计访问次数：</span>
+							<span class="secondTitle allVisitNum" style="margin-left:0">4,123,560</span>
 						</div>
-						<div class="Right Data">
-							<div class="title">访问统计量</div>
-							<div class="Num" id="Visit">
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="num-item">0</span>
-								<span class="unit">万</span>
-							</div>
-							<div class="otherData" id="otherData">
-								<div class="users Left business">业务用户：<span>125</span></div>
-								<div class="users Right internet" style="margin-right:30px;">互联网用户：<span>12205</span></div>
+						<div id="FunnelCanvas"></div>
+					</div>
+					<div class="BottomPart PartBorder o-left-1-bar">
+						<div class="triger triger-left-top"></div>
+						<div class="triger triger-right-top"></div>
+						<div class="triger triger-left-bottom"></div>
+						<div class="triger triger-right-bottom"></div>
+						<div class="part-title-leftimg"></div>
+						<div class="PartTitle">
+							地质信息产品
+							<span class="secondTitle">单位：个</span>
+						</div>
+						<div class="o-l-1-1" id="o-l-1-1"></div>
+						<div class="banner">
+							<div class="o-bottom">
+								
 							</div>
 						</div>
 					</div>
-					<div id="Map" class="Map"></div>
 				</div>
-				<div class="RightPart"></div>
+				<div class="MainPart Left">
+					<div id="Map" class="Map"></div>
+					<div class="cloudDisk">
+						<div class="title"><span>软件资源</span><span>在线人数</span></div>
+						<div id="cloudDisk"></div>
+					</div>
+					<div class="mainPartNumData">
+						<div class="Left numData1">
+							<div class="title">地质信息产品量<span class="secondTitle">(个)</span></div>
+							<div id="GeoInfoProduct"></div>
+						</div>
+						<div class="center numData2">
+							<div class="title">访问量<span class="secondTitle">(次)</span></div>
+							<div id="VisitDataNum"></div>
+							<div id="otherData">
+								<div class="Left business">业务用户：<span>0</span></div>
+								<div class="Right internet">互联网用户：<span>0</span></div>
+							</div>
+						</div>
+						<div class="Right numData3">
+							<div class="title">地质调查数据量<span class="secondTitle">(G)</span></div>
+							<div id="GeoSurveyDataNum"></div>
+						</div>
+					</div>
+					<div class="runMsgs">
+						<div id="totalMsg">
+							<div class="msgList">
+								<span class="logo xl"></span>
+								<span class="text">共抵挡了<span class="num">0</span>次攻击</span>
+							</div>
+						</div>
+						<div id="newMsg" class="newMsg">
+							<div class="msgList msgItems">
+							</div>
+						</div>
+					</div>
+					<div class="gauges">
+						<div id="CPUData" class="gauge"></div>
+						<div id="RAMData" class="gauge"></div>
+						<div id="StoreData" class="gauge"></div>
+					</div>
+					<div class="mapDataInfoList">
+						<div class="items">
+							<div class="item hidden">
+								<div class="unit-name fromData Left"><span>武汉地质调查局</span></div>
+								<div class="unit-name toData Right"><span>中国地质调查局</span></div>
+							</div>
+							<div class="item hidden">
+								<div class="unit-name fromData Left"><span>武汉地质调查局</span></div>
+								<div class="unit-name toData Right"><span>中国地质调查局</span></div>
+							</div>
+							<div class="item hidden">
+								<div class="unit-name fromData Left"><span>武汉地质调查局</span></div>
+								<div class="unit-name toData Right"><span>中国地质调查局</span></div>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="RightPart Left">
+					<div class="TopPart PartBorder">
+						<div class="triger triger-left-top"></div>
+						<div class="triger triger-right-top"></div>
+						<div class="triger triger-left-bottom"></div>
+						<div class="triger triger-right-bottom"></div>
+						<div class="part-title-leftimg"></div>
+						<div class="PartTitle">地质调查数据资源</div>
+						<div id="GeoSurveyData">
+						</div>
+					</div>
+					<div class="BottomPart PartBorder right-2-bar">
+						<div class="triger triger-left-top"></div>
+						<div class="triger triger-right-top"></div>
+						<div class="triger triger-left-bottom"></div>
+						<div class="triger triger-right-bottom"></div>
+						<div class="part-title-leftimg"></div>
+						<div class="PartTitle">
+							地质调查数据共享<span class="secondTitle">下载量:</span>
+							<span class="secondTitle downloadNum">0</span>
+						</div>
+						<div class="legend Right">
+							<span class="legend-visit Left"></span><span class="visit-text Left">访问次数</span>
+							<span class="legend-server-line Left"></span><span class="legend-server-circle Left"></span><span class="server-text Left">服务个数</span>
+							<div class="clear"></div>
+						</div>
+						<div class="banner">
+							<div class="fw fw1 active"><div class="r-2" id="r-2-1"></div>
+							</div>
+							<div class="fw fw2"><div class="r-2" id="r-2-2"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
 			</div>
 		</div>
-		<input type="hidden" id="sysInNum" value="0">
-		<input type="hidden" id="VisitNum" value="0">
 	</body>
 </html>

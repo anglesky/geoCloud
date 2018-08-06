@@ -1,0 +1,13 @@
+1get_map              获取中间地图各节点的坐标信息
+2get_main_map_info    获取中间地图各节点的其他信息
+3get_main_bottom      获取中下部3个压力与频率图的数据
+4get_accesses         获取中间大图的系统接入量数据
+5get_visits           获取中间大图的访问统计量数据
+6get_cloud_desktop_static    获取云桌面图中的静态数据（上部）
+7get_cloud_desktop_online    获取云桌面图中的动态数据（下部）
+8get_data_visit_monitor      获取数据服务与访问实时监控图数据
+9get_prod_service_visit      获取产品服务量图数据
+10get_prod_update            获取产品更新图数据
+11get_geo_dbs                获取地质调查专业数据图数据
+12get_geo_info_prod          获取地质信息产品图数据
+13get_node_relationship      获取节点服务关系图数据

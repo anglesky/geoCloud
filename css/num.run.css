@@ -1,0 +1,71 @@
+.mt-number-animate{
+	font-family: '微软雅黑';
+	line-height:100px;
+	height: 90px;/*设置数字显示高度*/
+	font-size: 36px;/*设置数字大小*/
+	overflow: hidden;
+	display: inline-block;
+	position: relative;
+}
+.mt-number-animate .name{
+	font-size: 2.5rem;
+	margin-right: 20px;
+	color: white;
+	float: left;
+}
+.mt-number-animate .mt-number-animate-dot{
+	width: 21px;/*设置分割符宽度*/
+	height: 90px;
+	float: left;
+	text-align: center;
+	color: transparent;
+}
+.mt-number-animate .mt-number-animate-dom{
+	width: 50px;/*设置单个数字宽度*/
+	text-align: center;
+	float: left;
+	position: relative;
+	top: 0;
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span{
+	width: 100%;
+	float: left;
+	width: 50px;
+	height: 90px;
+	color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num0{
+	background-image: url(../images/number_small/0.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num1{
+	background-image: url(../images/number_small/1.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num2{
+	background-image: url(../images/number_small/2.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num3{
+	background-image: url(../images/number_small/3.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num4{
+	background-image: url(../images/number_small/4.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num5{
+	background-image: url(../images/number_small/5.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num6{
+	background-image: url(../images/number_small/6.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num7{
+	background-image: url(../images/number_small/7.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num8{
+	background-image: url(../images/number_small/8.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num9{
+	background-image: url(../images/number_small/9.png);
+}
+.mt-number-animate .mt-number-animate-dot.num-comma{
+	background: url(../images/number_small/dot.png) no-repeat center bottom;
+}

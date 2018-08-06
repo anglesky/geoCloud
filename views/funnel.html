@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>地质云 GeoCloud</title>
+		<meta name="keywords" content="Javascript" />
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/echarts.min.js"></script>
+	</head>
+	<body>
+		<div class="GeoCloud">
+			<div id="FunnelCanvas"></div>
+			<div class="cloudDisk">
+				<div class="title"><span>软件资源</span><span>在线人数</span></div>
+				<div id="cloudDisk"></div>
+			</div>
+			<div id="GeoSurveyData">
+				
+			</div>
+		</div>
+	</body>
+</html>
+<style type="text/css">
+	.GeoCloud{
+		background: url(../images/mainbg.png) no-repeat;
+	}
+	#FunnelCanvas{
+		width: 988px;
+		height: 400px;
+	}
+
+	/***.cloudDisk***/
+	.cloudDisk{
+		margin-top: 15px;
+		width: 500px;
+		height: 216px;
+		background-color: #232969;
+	}
+	.cloudDisk .title{
+		font-size: 24px;
+		padding-top: 10px;
+		line-height: 1;
+		text-align: center;
+	}
+	.cloudDisk .title span{
+		color: #74D2FF;
+	}
+	.cloudDisk .title span:first-child{
+		margin-right: 100px;
+		color: #BCFDFF;
+	}
+	.cloudDisk #cloudDisk{
+		width: 500px;
+		height: 160px;
+	}
+	#GeoSurveyData{
+		width: 988px;
+		height: 300px;
+	}
+	/***.cloudDisk***/
+</style>
+<script type="text/javascript">
+	var series = [];
+	var serverData = [
+		{value: '1,060,920', name: '地质空间数据'},
+		{value: '1,060,100', name: '地质图件'},
+		{value: '1,050,700', name: '地学科普'},
+		{value: '1,040,120', name: '地质资料库'},
+		{value: '106,012', name: '出版物'},
+		{value: '105,010', name: '技术方法与标准'},
+		{value: '1,050', name: '软件'},
+		{value: '150', name: '仪器设备'}
+	]
+	$(function(){
+		var data = [
+			{value: 160, name: '塔里克'},
+			{value: 140, name: '嘉文四世'},
+			{value: 120, name: '德邦总管'},
+			{value: 100, name: '蛮族之王'},
+			{value: 80, name: '凯尔'},
+			{value: 60, name: '马尔扎哈'},
+			{value: 40, name: '德玛西亚之力'},
+			{value: 20, name: '奎因'}
+		];
+		canvasFunnel(data);
+	})
+	function canvasFunnel(data){
+		getSeriesData(data);
+		option = {
+			title: {
+				text: '地质产品服务'
+			},
+			tooltip: {
+				trigger: 'item',
+				formatter: "{a} <br/>{b} : {c}%"
+			},
+			calculable: true,
+			series: series
+		};
+		var FunnelECharts = echarts.init($('#FunnelCanvas').get(0));
+		FunnelECharts.setOption(option);
+	}
+	
+	function getSeriesData(data){
+		var top = [40, 85, 130,175, 220, 265,310, 355];
+		var color = [	'rgba(4, 46, 75, 0.5)',
+				'rgba(10, 59, 89, 0.5)',
+				'rgba(15, 83, 111, 0.5)',
+				'rgba(10, 119, 160, 0.5)',
+				'rgba(8, 149, 196, 0.5)',
+				'rgba(1, 190, 252, 0.5)',
+				'rgba(0, 247, 253, 0.5)',
+				'rgba(0, 251, 173, 1)'
+			];
+		var lineColors = ['#FB0203', '#FF6D00', '#FFD302','#FFD302', '#E3FF00', '#E3FF00','#E3FF00','#E3FF00'];
+		var labelPosition = ['right','right'];
+		data.forEach(function(item,i){
+			var itemI = Math.ceil(i%2);
+			var itemName = serverData[i].name + ' ('+serverData[i].value + ')';
+			item.name = itemName;
+			series.push({
+				name:'地质产品服务',
+				type:'funnel',
+				left: '10%',
+				top: top[i],
+				bottom: 0,
+				width: '40%',
+				min: 0,
+				max: data[0].value,
+				minSize: '0%',
+				maxSize: '100%',
+				sort: 'ascending',
+				silent: 'true',
+				funnelAlign: 'center',
+				gap: 1,
+				label: {
+					normal: {
+						show: false,
+						position: labelPosition[itemI],
+						color: 'white',
+						fontSize: 24,
+						padding: 5
+					},
+					emphasis: {
+						textStyle: {
+							fontSize: 24
+						}
+					}
+				},
+				labelLine: {
+					normal: {
+						length: 200,
+						lineStyle: {
+							width: 1,
+							type: 'solid',
+							color: lineColors[i]
+						}
+					}
+				},
+				itemStyle: {
+					normal: {
+						borderColor: '#fff',
+						borderWidth: 0,
+						color: color[i]
+					}
+				},
+				markLine: {
+					silent: true,
+					symbol:'circle',
+					symbolSize: 5,
+					label:{
+						normal:{
+							show: true,
+							// position: 'end',
+							fontSize: 24,
+							color:'white'
+						}
+					},
+					lineStyle:{
+						normal:{
+							color: lineColors[i],
+							type: 'solid'
+						}
+					},
+					data: [
+						[
+							{
+								name: item.name,
+								x: '30%',
+								y: top[i]
+							},
+							{
+								x: (45+i*2)+'%',
+								y: top[i],
+								symbol:'arrow'
+							},
+						]
+					]
+				},
+				data: [item]
+			})
+		})
+	}
+</script>
+
+<script>
+	var cloudDiskOption,cloudDiskECharts;
+	$(function(){
+		canvasCloudDisk('ss');
+	})
+	function canvasCloudDisk(data){
+		var myData = ['应用类型', '办公软件', '工具软件', '专业应用'];
+		var databeast = {
+		    1: [389, 259, 262, 324]
+		};
+		var databeauty = {
+		    1: [121, 388, 233, 309]
+		};
+		var timeLineData = [1];
+
+		cloudDiskOption = {
+			backgroundColor: 'transparent',
+			grid: [{
+				show: false,
+				left: '15%',
+				top: 0,
+				bottom: 0,
+				containLabel: true,
+				width: '35%',
+			}, {
+				show: false,
+				left: '51.5%',
+				top: 20,
+				bottom: 0,
+				width: '0%',
+			}, {
+				show: false,
+				right: '15%',
+				top: 0,
+				bottom: 0,
+				containLabel: true,
+				width: '35%',
+			}],
+			xAxis: [{
+				type: 'value',
+				inverse: true,
+				axisLine: {
+					show: false,
+				},
+				axisTick: {
+					show: false,
+				},
+				position: 'top',
+				axisLabel: {
+					show: false
+				},
+				splitLine: {
+					show: false
+				},
+			}, {
+				gridIndex: 1,
+				show: false,
+			}, {
+				gridIndex: 2,
+				type: 'value',
+				axisLine: {
+					show: false,
+				},
+				axisTick: {
+					show: false,
+				},
+				position: 'top',
+				axisLabel: {
+					show: false
+				},
+				splitLine: {
+					show: false
+				},
+			}],
+			yAxis: [{
+				type: 'category',
+				inverse: true,
+				position: 'right',
+				axisLine: {
+					show: false
+				},
+				axisTick: {
+					show: false
+				},
+				axisLabel: {
+					show: false,
+					textStyle: {
+						color: '#9D9EA0',
+						fontSize: 12,
+					},
+				},
+			data: myData,
+			}, {
+				gridIndex: 1,
+				type: 'category',
+				inverse: true,
+				position: 'left',
+				axisLine: {
+					show: false
+				},
+				axisTick: {
+					show: false
+				},
+				axisLabel: {
+					show: true,
+					textStyle: {
+						color: '#FFFFFF',
+						fontSize: 24,
+					},
+				},
+				data: myData.map(function(value) {
+					return {
+						value: value,
+						textStyle: {
+							align: 'center',
+						}
+					}
+				})
+			}, {
+				gridIndex: 2,
+				type: 'category',
+				inverse: true,
+				position: 'left',
+				axisLine: {
+					show: false
+				},
+				axisTick: {
+					show: false
+				},
+				axisLabel: {
+					show: false,
+					textStyle: {
+						color: '#9D9EA0',
+						fontSize: 12,
+					},
+				},
+				data: myData,
+			}],
+			series: []
+		};
+
+		for (var i = 0; i < timeLineData.length; i++) {
+			cloudDiskOption.series.push(
+				{
+					name: '软件资源',
+					type: 'bar',
+					barGap: 16,
+					barWidth: 24,
+					xAxisIndex: 0,
+					yAxisIndex: 0,
+					label: {
+						normal: {
+							show: true,
+							position: ['100%',0],
+							offset:[-180,0],
+							fontSize: 24,
+							color: '#FFFFFF'
+						}
+					},
+					itemStyle: {
+						normal: {
+							color: '#02A8BD',
+						},
+						emphasis: {
+							color: '#08C7AE',
+						},
+					},
+					data: databeast[timeLineData[i]],
+				},
+				{
+					name: '在线人数',
+					type: 'bar',
+					barGap: 16,
+					barWidth: 24,
+					xAxisIndex: 2,
+					yAxisIndex: 2,
+					label: {
+						normal: {
+							show: true,
+							position: [130,0],
+							fontSize: 24,
+							color: '#FFFFFF'
+						}
+					},
+					itemStyle: {
+						normal: {
+							color: '#0773FF',
+						},
+						emphasis: {
+							color: '#F94646',
+						}
+					},
+					data: databeauty[timeLineData[i]],
+				}
+			);
+		}
+		cloudDiskECharts = echarts.init($('#cloudDisk').get(0));
+		cloudDiskECharts.setOption(cloudDiskOption);
+	}
+</script>
+
+<script type="text/javascript">
+	var paperDataURI = '../images/bar1.png';
+	var pictorialBarSeries = [], xAxisDatas = [];
+	var totalPage = 2, currPage = 1, pictorialBarOption, pictorialBarEcharts;
+	var randomDatas = [
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000),
+		parseInt(Math.random()*1000)
+	];
+	function sortNumber(a,b)
+	{
+		return a - b
+	}
+	randomDatas = randomDatas.sort(sortNumber);
+	var pictorialBarDatas = {
+		1: [
+			{value: randomDatas[9], name: '区域地质与基础地质'},
+			{value: randomDatas[8], name: '物化遥'},
+			{value: randomDatas[7], name: '地质文献与资料'},
+			{value: randomDatas[6], name: '能源矿产'},
+			{value: randomDatas[5], name: '管理支撑'}
+		],
+		2: [
+			{value: randomDatas[4], name: '综合成果'},
+			{value: randomDatas[3], name: '矿产'},
+			{value: randomDatas[2], name: '水工环地质'},
+			{value: randomDatas[1], name: '海洋地质'},
+			{value: randomDatas[0], name: '钻孔'}
+		]
+	} ;
+	totalPage = Object.keys(pictorialBarDatas).length;
+	$(function(){
+		pictorialBar();
+		setInterval(function(){
+			echarts.dispose(pictorialBarEcharts);
+			pictorialBar();
+		},5000);
+		
+	})
+
+	function pictorialBar(){
+		var paperDataURI = '../images/bar1.png';
+
+		pictorialBarSeries = [], xAxisDatas = [];
+		for (var i = 0; i < pictorialBarDatas[currPage].length; i++) {
+			pictorialBarSeries.push({
+				value: pictorialBarDatas[currPage][i].value,
+				symbol: 'image://' + paperDataURI,
+				symbolRepeat: true,
+				symbolSize: ['80%', '20%'],
+				symbolMargin: '0%',
+				animationDelay: function (dataIndex, params) {
+					return params.index * 30;
+				}
+			});
+			xAxisDatas.push(pictorialBarDatas[currPage][i].name);
+		};
+		currPage+=1;
+		if (currPage > totalPage) {
+			currPage = 1;
+		};
+
+		
+		pictorialBarOption = {
+			backgroundColor: 'transparent',
+			tooltip: {},
+			xAxis: [{
+				data: xAxisDatas,
+				axisTick: {show: false},
+				axisLine: {show: false},
+				axisLabel: {
+					margin: 20,
+					interval: 0,
+					textStyle: {
+						color: '#FFFFFF',
+						fontSize: 24
+					}
+				}
+			}],
+			yAxis: {
+				splitLine: {show: false},
+				axisTick: {show: false},
+				axisLine: {show: false},
+				axisLabel: {show: false}
+			},
+			markLine: {
+				z: -1
+			},
+			animationEasing: 'elasticOut',
+			series: {
+				type: 'pictorialBar',
+				name: 'all',
+				hoverAnimation: true,
+				label: {
+					normal: {
+						show: true,
+						position: 'top',
+						formatter: '{c} G',
+						textStyle: {
+							fontSize: 24,
+							color: '#1FF4FC'
+						}
+					}
+				},
+				data: pictorialBarSeries,
+			}
+		};
+		pictorialBarEcharts = echarts.init($('#GeoSurveyData').get(0));
+		pictorialBarEcharts.setOption(pictorialBarOption);
+	}
+</script>

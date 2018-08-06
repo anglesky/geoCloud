@@ -7,8 +7,8 @@ html, body{
 	font-family: 'Microsoft Yahei',Arial;
 	margin: 0  ! important;
 	padding: 0 ! important;
-	/*background-color: transparent ! important;*/
 	background-color: #181046;
+	font-size: 24px;
 }
 .Left{
 	float: left;
@@ -22,107 +22,89 @@ html, body{
 .GeoCloud{
 	margin: 0 auto;
 	width: 3840px;
-	height: 1024px;
+	height: 1080px;
+	position: absolute;
+	overflow: hidden;
 	background: url(../images/mainbg.png) no-repeat center center;
 }
 .GeoCloud .header-title{
-	height: 140px;
+	height: 177px;
 	width: 3840px;
-	background: url(../images/top.png) no-repeat center center;
+	/*background: url(../images/geoCloud_top2.png) no-repeat center center;*/
 }
 .GeoCloud .main-container{
 	/*padding: 0 24px 32px 24px;*/
 	height: 870px;
+	position: relative;
+	z-index: 1;
 }
 .GeoCloud .main-container .LeftPart, .GeoCloud .main-container .RightPart{
-	width: 1010px;
-	display: inline-block;
-	margin-top: -68px;
-	height: 870px;
+	width: 1020px;
+	display: block;
+	height: 100%;
 	position: relative;
+	/*z-index: 2;*/
 }
 .GeoCloud .main-container .MainPart{
-	width: 1772px;
-	height: 884px;
-	display: inline-block;
-	margin: 0 19px;
+	width: 1800px;
+	height: 100%;
+	display: block;
 	position: relative;
+	z-index: 1;
 }
-
-.GeoCloud .main-container .MainPart .topData{
+.GeoCloud .topData{
+	text-align: center;
+	font-size: 2.5rem;
+	color: white;
 	position: absolute;
 	width: 100%;
-	z-index: 2;
+	z-index: 10;
+	top: 177px;
+	/*height: 76px;
+	line-height: 76px;*/
 }
-.GeoCloud .main-container .MainPart .topData .title{
-	font-size: 30px;
-	color: #FEE55A;
-	line-height: 1;
-	margin-bottom: 16px;
-}
-.GeoCloud .main-container .MainPart .topData .Num .num-item{
-	font-size: 72px;
-	color: #FEE55A;
-	font-family: 'DsDigib';
-	background: rgba(255,217,254,0.3);
-	width: 56px;
-	height: 66px;
-	line-height: 66px;
-	text-align: center;
-	margin-right: 12px;
+
+.GeoCloud .topData div#pSNum{
 	display: inline-block;
 }
-.GeoCloud .main-container .MainPart .topData .Num .unit{
-	color: #FEE55A;
-	font-size: 16px;
-	font-weight: bold;
-	visibility: hidden;
-}
-.GeoCloud .main-container .MainPart .topData .Num .unit.show{
-	visibility: visible;
-}
-.GeoCloud .main-container .MainPart .topData .otherData{
-	margin-top: 16px;
-	line-height: 1;
-	font-size: 20px;
-	color: white;
-}
-.GeoCloud .main-container .MainPart .topData .otherData .users span{
-	font-family: 'Arial','Microsoft Yahei';
-}
 .GeoCloud .main-container .MainPart #Map{
-	height: 800px;
-	width: 1772px;
+	height: 870px;
+	width: 1800px;
 }
-.GeoCloud .MainPart #cloudDisk{
+.GeoCloud .main-container .PartBorder{
+	border: 1px solid rgba(81,134,255,0.6);
+	box-shadow: inset 0 0 10px #5A3CCA;
 	position: absolute;
+}
+.GeoCloud .main-container .TopPart{
+	width: 988px;
+	height: 450px;
+	top: -55px;
+}
+.GeoCloud .main-container .BottomPart{
+	width: 988px;
+	height: 450px;
 	bottom: 0;
-	right: 0;
-	margin-right: 30px;
-	margin-bottom: 32px;
-	width: 396px;
-	height: 440px;
-	border: 1px solid #5186FF;
-	box-shadow: 0 0 10px #00EDF4 inset;
-	-moz-box-shadow: 0 0 10px #00EDF4 inset;
-	-webkit-box-shadow: 0 0 10px #00EDF4 inset;
-	background: rgba(20, 9, 78, 0.6);
 }
-.GeoCloud .MainPart #cloudDisk .title{
-	font-size: 36px;
+.GeoCloud .main-container .LeftPart .TopPart, .GeoCloud .main-container .LeftPart .BottomPart{
+	left: 32px;
+}
+.GeoCloud .main-container .RightPart .TopPart, .GeoCloud .main-container .RightPart .BottomPart{
+	right: 32px;
+}
+.GeoCloud .main-container .PartTitle{
+	font-size: 1.67rem;
 	color: #FEE55A;
-	margin-top: -52px;
 	line-height: 1;
+	float: left;
+	padding-left: 8px;
+	padding-top: 12px;
 }
-.GeoCloud .MainPart #cloudDisk .title .total-count{
-	margin-left: 12px;
-	font-size: 18px;
+.GeoCloud .main-container .PartTitle .secondTitle, .GeoCloud .main-container .MainPart .mainPartNumData .secondTitle{
+	font-size: 1rem;
+	margin-left: 8px;
 }
-.GeoCloud .MainPart #cloudDisk #softType{
-	margin: 30px auto 0 auto;
-	width: 340px;
-	height: 200px;/*160*/
-}
+/*四个角start*/
 .triger{
 	width: 20px;
 	height: 20px;
@@ -146,84 +128,191 @@ html, body{
 	bottom: 0;
 	background-image: url(../images/j_right_bottom.png);
 }
-.GeoCloud .MainPart #cloudDisk .online-users{
-	margin: 0 24px;
+/*四个角end*/
+/*标题前的图片*/
+.part-title-leftimg{
+	height: 28px;
+	width: 88px;
+	float: left;
+	display: inline-block;
+	background: url(../images/navi.png) no-repeat 0 center;
+	margin: 12px 0px 0px 8px;
 }
-.GeoCloud .MainPart #cloudDisk .online-users .title{
-	font-size: 18px;
-	color: white;
-	margin: 0;
+
+/***.cloudDisk***/
+.GeoCloud .main-container .cloudDisk{
+	margin-top: 15px;
+	width: 500px;
+	height: 216px;
+	background-color: rgba(37, 45, 111, 0.6);
+	position: absolute;
+	bottom: 0;
+	left: 20px;
 }
-.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item{
-	margin-top: 10px;
-	height: 36px;
-	line-height: 36px;
+.GeoCloud .main-container .cloudDisk .title{
+	font-size: 24px;
+	padding-top: 10px;
+	line-height: 1;
+	text-align: center;
+}
+.GeoCloud .main-container .cloudDisk .title span{
+	color: #74D2FF;
+}
+.GeoCloud .main-container .cloudDisk .title span:first-child{
+	margin-right: 100px;
+	color: #BCFDFF;
+}
+.GeoCloud .main-container .cloudDisk #cloudDisk{
+	width: 500px;
+	height: 160px;
+}
+/***.cloudDisk***/
+
+/****象形图****/
+.GeoCloud .main-container #GeoSurveyData{
+	width: 988px;
+	height: 400px;
+}
+.GeoCloud .main-container .mainPartNumData{
+	position: absolute;
 	width: 100%;
+	top: 0;
+	text-align: center;
 }
-.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img{
-	/*width: 228px;*/
-	height: 36px;
-	max-width: 228px;
+.GeoCloud .main-container .mainPartNumData .numData1{
+	margin-left: 40px;
+	text-align: left;
+}
+.GeoCloud .main-container .mainPartNumData .numData2{
+	margin: 0 auto;
+	display: inline-block;
+	min-width: 200px;
+	text-align: left;
+}
+.GeoCloud .main-container .mainPartNumData .numData3{
+	margin-right: 40px;
+	text-align: left;
+}
+.GeoCloud .main-container .mainPartNumData .title{
+	color: #FEE55A;
+	font-size: 1.67rem;
+	line-height: 1;
+	margin-bottom: 5px;
+	text-align: left;
+}
+.GeoCloud .main-container .mainPartNumData #otherData{
+	font-size: 24px;
+	color: white;
+}
+
+/***GJ***/
+.GeoCloud .main-container .runMsgs{
+	position: absolute;
+	bottom: 0;
+	right: 4px;
+	width: 400px;
+}
+.GeoCloud .main-container .runMsgs .logo{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	background-position: center;
 	background-repeat: no-repeat;
 	display: inline-block;
 }
-.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img1{
-	background-image: url(../images/user1.png);
+.GeoCloud .main-container .runMsgs .logo.xl{
+	background: url(../images/icon_xl.png);
+	top: 9px;
 }
-.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img2{
-	background-image: url(../images/user2.png);
+.GeoCloud .main-container .runMsgs .logo.warning{
+	background: url(../images/icon_warning.png);
+	top: 9px;
 }
-.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img3{
-	background-image: url(../images/user3.png);
-}
-.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-img4{
-	background-image: url(../images/user4.png);
-}
-.GeoCloud .MainPart #cloudDisk .online-users .user-list .user-item .user-data{
-	display: inline-block;
+.GeoCloud .main-container .runMsgs .text{
+	margin-left: 40px;
 	color: white;
-	font-size: 18px;
-	font-weight: bold;
+	font-size: 1rem;
 }
-#rateDatas{
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	margin-bottom: 32px;
-}
-#rateDatas .rateTable{
-	margin-left: 16px;
-	width: 425px;
-	height: 225px;
-	display: inline-block;
+.GeoCloud .main-container .runMsgs #totalMsg, .GeoCloud .main-container .runMsgs #newMsg{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	/*padding: 0 20px;*/
 	position: relative;
-	border: 1px solid #5186FF;
-	box-shadow: 0 0 10px #00EDF4 inset;
-	-moz-box-shadow: 0 0 10px #00EDF4 inset;
-	-webkit-box-shadow: 0 0 10px #00EDF4 inset;
-	background: rgba(20, 9, 78, 0.6);
+	background-color: rgba(37, 41, 111, 0.6);
 }
-#rateDatas .rateTable:first-child{
-	margin-left: 0;
+.GeoCloud .main-container .runMsgs .msgList{
+	margin: 0 20px;
+	overflow: hidden;
 }
-#rateDatas .rateTable .title{
-	height: 24px;
-	line-height: 1;
-	background: url(../images/p_rate.png) no-repeat 0 center;
-	text-align: right;
-	font-size: 24px;
+.GeoCloud .main-container .runMsgs #newMsg{
+	margin-top: 8px;
+	overflow: hidden;
+}
+.GeoCloud .main-container .runMsgs ul{
+	position: relative;
+	display: inline-block;
+}
+.GeoCloud .main-container .runMsgs ul li{
+	/*min-width: 360px;*/
+	display: inline-block;
+	margin-right: 50px;
+	/*float: left;*/
+}
+.marquee, *[class^="marquee"] {
+	display: inline-block;
+	white-space: nowrap;
+	position:absolute;
+}
+.marquee{
+  margin-left: 25%;
+}
+
+.marquee-content-items{
+  display: inline-block;
+  margin: 0;
+  position: relative;
+}
+
+/***gauge***/
+.GeoCloud .main-container .gauges{
+	position: absolute;
+	bottom: 120px;
+	right: 40px;
+}
+.GeoCloud .main-container .gauges .gauge{
+	width: 136px;
+	height: 136px;
+	/*margin-bottom: 16px;*/
+}
+
+/************/
+.GeoCloud .main-container  .mapDataInfoList{
+	position: absolute;
+	top: 300px;
+	right: 200px;
+	max-height: 129px;
+	overflow: hidden;
+}
+.GeoCloud .main-container  .mapDataInfoList .items .item{
+	height: 35px;
+	line-height: 35px;
+	width: 430px;
+	margin-bottom: 8px;
+	background-color: rgba(255, 255, 255, 0.15);
+	background-image: url(../images/ft_icon.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.GeoCloud .main-container  .mapDataInfoList .items .item.hidden{
+	visibility: hidden;
+}
+.GeoCloud .main-container  .mapDataInfoList .items .item .unit-name{
+	font-size: 0.83rem;
 	color: #FEE55A;
-	margin: 8px 8px 0 8px;
+	display: block;
+	width: 203px;
 }
-#rateDatas .gauge{
-	width: 140px;
-	height: 140px;
-	display: inline-block;
-	margin: 15px 10px 0 16px;
-}
-#rateDatas .line{
-	width: 240px;
-	height: 180px;
-	display: inline-block;
-	/*margin-top: 24px;*/
+.GeoCloud .main-container  .mapDataInfoList .items .item .unit-name span{
+	margin-left: 10px;
 }

@@ -1,49 +1,94 @@
+var pictorialBarSeries = [], xAxisDatas = [];
+var pictorialBarOption, pictorialBarEcharts;
 $(function(){
-	rightPart3();
+	// ajaxGetDataRight('get_node_relationship', 'NODERELATIONSHIP');
+	ajaxGetDataRight('get_data_visit_monitor', 'DATASHARE');
+	// ajaxGetDataRight('get_geo_dbs', 'GEOLOGYDATA');
+	setInterval(function(){
+		// ajaxGetDataRight('get_node_relationship', 'NODERELATIONSHIP');
+		ajaxGetDataRight('get_data_visit_monitor', 'DATASHARE');
+		// ajaxGetDataRight('get_geo_dbs', 'GEOLOGYDATA');
+	},1000*60*60*24);
+	pictorialBarPart();
 })
-function rightPart3(){
+function rightPart2(data){
+	var data_array_x = new Array();
+	var data_array_y = new Array();
+	var data_x_1 = new Array();
+	var data_x_2 = new Array();
+	var data_y_11 = new Array();
+	var data_y_12 = new Array();
+	var data_y_21 = new Array();
+	var data_y_22 = new Array();
+	$.each(data, function (index, obj) {
+        $.each(obj, function (i, j) {
+    		data_array_x[index] = i;
+    		data_array_y[index] = j;
+        });
+    });
+   
+    for(var array_num=0;array_num<data_array_x.length;array_num++){
+    	if(array_num<5){
+    		data_x_1[array_num] = data_array_x[array_num];
+    		data_y_11[array_num] = data_array_y[array_num]['visit'];
+    		data_y_21[array_num] = data_array_y[array_num]['data'];
+    	}else if(array_num<10){
+    		data_x_2[array_num-5] = data_array_x[array_num];
+    		data_y_12[array_num-5] = data_array_y[array_num]['visit'];
+    		data_y_22[array_num-5] = data_array_y[array_num]['data'];
+    	}
+    }
 	// 轮播参数
 	var index = 2;
-	var picNum = 3;
+	var picNum = 2;
+	var indexNum = 0;
 	// 产品服务量数据
-	var q_r_3_1 = 'r-3-1';
-	var q_r_3_2 = 'r-3-2';
-	var q_r_3_3 = 'r-3-3';
-	var data_x_1 = ['国土资源部','中国地址调查局','国土资源部','地科院','发展研究中心','天津地调中心','沈阳地调中心','南京地调中心','武汉地调中心','成都地调中心'];
-	var data_x_2 = ['国土资源部','中国地址调查局','国土资源部','地科院','发展研究中心','天津地调中心','沈阳地调中心','南京地调中心','武汉地调中心','上海地调中心'];
-	var data_x_3 = ['中国地址调查局','国土资源部','地科院','发展研究中心','天津地调中心','沈阳地调中心','南京地调中心','武汉地调中心','新疆地调中心'];
-	var data_y_11 = [10, 232, 256, 767, 13561, 162, 3213, 200, 64, 33];
-	var data_y_12 = [20, 232, 256, 767, 11356, 1622, 326, 200, 64, 33];
-	var data_y_13 = [20, 49, 70, 232, 1356, 1622, 326, 2000000000, 64];
-	var data_y_21 = [107, 2732, 2756, 7767, 73561, 1672, 32713, 2070, 674, 373];
-	var data_y_22 = [20, 8232, 8256, 7678, 13568, 16228, 3268, 2008, 684, 383];
-	var data_y_23 = [220, 249, 270, 2232, 21356, 16222, 3226, 200000, 642];
-	dataAndAccess(q_r_3_1,data_x_1,data_y_11,data_y_21);
-	dataAndAccess(q_r_3_2,data_x_2,data_y_12,data_y_22);
-	dataAndAccess(q_r_3_3,data_x_3,data_y_13,data_y_23);
+	var q_r_2_1 = 'r-2-1';
+	var q_r_2_2 = 'r-2-2';
+	// 下载量
+	$('.secondTitle.downloadNum').text('666');
+	dataAndAccess(q_r_2_1,data_x_1,data_y_11,data_y_21);
+	dataAndAccess(q_r_2_2,data_x_2,data_y_12,data_y_22);
 	// 定时刷新
 	setInterval(function(){
-		nextBanner(index);
-	},1000);
+		nextBannerRight(index);
+	},5000);
 	// 刷新
-	function nextBanner(tarIndex){
-		index = tarIndex + 1;
-		if (index > picNum) {
-			index = 1;
-		}
-		var _target = $('.fw'+tarIndex);
-		_target.animate({opacity:'1'},800,'swing',function(){
-			_target.addClass('active').siblings('.fw').removeClass('active');
-		})
-		.siblings('.fw').animate({opacity:'0'},800,'swing')
+	function nextBannerRight(tarIndex){
+		// index = tarIndex + 1;
+		// if (index > picNum) {
+		// 	index = 1;
+		// }
+		// var _target = $('.right-2-bar .fw'+tarIndex);
+		// // $('.right-2-bar .fw').removeClass('active');
+		// // $('.right-2-bar .fw').css('opacity',0);
+		// _target.css('opacity',1);
+		// _target.addClass('active');
+		// $('.right-2-bar .banner').css('right','-988px');
+		// $('.right-2-bar .banner').animate({'left':-988},800,'swing');
+		// $('.right-2-bar .banner').animate({'right':40},800,'swing');
+		// $('.right-2-bar .banner').animate({'right':0},100,'swing');
+		$('.right-2-bar .banner').animate({'left':-1030},800,'swing');
+		$('.right-2-bar .banner').animate({'left':-988},100,'swing');
+		setTimeout(function(){
+			if(indexNum%2){
+				$('.right-2-bar .banner .fw').css('float','right');
+			}else{
+				$('.right-2-bar .banner .fw').css('float','left');
+			}
+			
+			$('.right-2-bar .banner').css('left','0px');
+		},1000);
+		indexNum++;
+		
 	};
 	// 求最大值
 	function getMaxNum(data){
-		var data_max = 0
+		var data_max = 0;
 		for(var i=0;i<data.length-1;i++){
-			if(data[i]>data[i+1] && data[i]>data_max){
+			if(data[i]-data[i+1]>0 && data[i]-data_max>0){
 				data_max = data[i];
-			}else if(data[i+1]>data_max){
+			}else if(data[i+1] - data_max>0){
 				data_max = data[i+1];
 			}
 		}
@@ -64,10 +109,24 @@ function rightPart3(){
 			            }
 			        }
 			    },
+			    legend: {
+			    	show: false,
+			        data:['访问次数','服务个数'],
+			        top:0,
+			        right:40,
+			        itemWidth:40,	
+			        itemHeight:24,
+			        textStyle:{
+			        	color: '#fff',
+			        	fontFamily:'Microsoft YaHei',
+			        	fontSize:24,
+			        }
+			    },
 			    grid: {
-			    	left: '15%',
-			    	right: '15%',
-			    	bottom: '23%',
+			    	left: '12%',
+			    	right: '12%',
+			    	top: '20%',
+			    	bottom: '10%',
 			    },
 			    xAxis: [
 			        {
@@ -83,10 +142,10 @@ function rightPart3(){
 			            },
 			           	axisLabel: {
 			           		textStyle: {
-			                	color: '#fff'
+			                	color: '#fff',
+			                	fontSize:24,
 			                },
 			             	interval: 0,
-			             	rotate: -30
 			          	},
 			            data: data_x
 			        }
@@ -102,11 +161,14 @@ function rightPart3(){
 			            },
 			            axisLabel: {
 			           		textStyle: {
-			                	color: '#fff'
+			                	color: '#fff',
+			                	fontSize:24,
 			                }
 			          	},
 			          	nameTextStyle: {
-			          		color: '#fff'
+			          		color: '#fff',
+			          		fontSize:24,
+			          		padding:[0,0,20,0],
 			          	},
 			          	axisTick: {
 			          		lineStyle: {
@@ -120,11 +182,11 @@ function rightPart3(){
 			          	},
 			            min: 0,
 			            max: Math.ceil(data_y_1_max/10)*10,
-			            interval: Math.ceil(data_y_1_max/50)*10,
+			            interval: Math.ceil(data_y_1_max/10)*2,
 			        },
 			        {
 			            type: 'value',
-			            name: '数据个数',
+			            name: '服务个数',
 			            splitLine: {
 			            	lineStyle: {
 			            		color: '#333'
@@ -132,7 +194,8 @@ function rightPart3(){
 			            },
 			            axisLabel: {
 			           		textStyle: {
-			                	color: '#f2fa0e'
+			                	color: '#f2fa0e',
+			                	fontSize:24,
 			                }
 			          	},
 			          	axisTick: {
@@ -147,26 +210,28 @@ function rightPart3(){
 			          		}	
 			          	},
 			          	nameTextStyle: {
-			          		color: '#f2fa0e'
+			          		color: '#f2fa0e',
+			          		fontSize:24,
+			          		padding:[0,0,20,0],
 			          	},
 			            min: 0,
 			            max: Math.ceil(data_y_2_max/10)*10,
-			            interval: Math.ceil(data_y_2_max/50)*10,
+			            interval: Math.ceil(data_y_2_max/10)*2,
 			        }
 			    ],
 			    series: [
 			        {
 			            name:'访问次数',
 			            type:'bar',
-			            barWidth : 24,
+			            barWidth : 40,
 			            barMinHeight:1,
 			            itemStyle : { 
 				            normal: {
 				                color: new echarts.graphic.LinearGradient(
 			                        0, 0, 0, 1,
 			                        [
-			                            {offset: 0, color: '#26aae7'},
-			                            {offset: 1, color: '#0756fa'}
+			                            {offset: 0, color: '#0596ea'},
+			                            {offset: 1, color: '#2d79c6'}
 			                        ]
 			                    )
 				            }
@@ -174,33 +239,34 @@ function rightPart3(){
 			            data:data_y_1
 			        },
 			        {
-			            name:'数据个数',
+			            name:'服务个数',
 			            type:'line',
 			            smooth:true,
 			            yAxisIndex: 1,
+			            symbolSize: 10,
 			            itemStyle: {
 			                normal: {
 			                    color: '#f2fa0e',
 			                    lineStyle:{  
-	                                    width:'1'  
-	                                } 
+                                    width:'1'  
+                                } 
 			                }
 			            },
 			            areaStyle: {
 			                normal: {
 			                    color: {
-										    type: 'linear',
-										    x: 0,
-										    y: 0,
-										    x2: 0,
-										    y2: 1,
-										    colorStops: [{
-										        offset: 0, color: 'rgba(242,250,14,0.8)'
-										    }, {
-										        offset: 1, color: 'rgba(242,250,14,0)'
-										    }],
-										    globalCoord: false
-										}
+								    type: 'linear',
+								    x: 0,
+								    y: 0,
+								    x2: 0,
+								    y2: 1,
+								    colorStops: [{
+								        offset: 0, color: 'rgba(242,250,14,0.3)'
+								    }, {
+								        offset: 1, color: 'rgba(242,250,14,0)'
+								    }],
+								    globalCoord: false
+								}
 			                }
 			            },
 			            data:data_y_2
@@ -209,4 +275,143 @@ function rightPart3(){
 			};               
 		myChart.setOption(option); 
 	}
+}	
+
+function ajaxGetDataRight(act, type){
+	$.ajax({
+		url: dataUrl+act,
+		cache:false,
+		success:function(data){
+			data = JSON.parse(data);
+			switch(type){
+				case 'DATASHARE':
+					rightPart2(data);
+					break;
+				// case 'GEOLOGYDATA':
+				// 	rightPart3(data);
+				// 	break;
+				case 'NODERELATIONSHIP':
+					rightPart1(data);
+					break;
+				default:
+					break;
+			}
+
+		}
+	})
+}
+
+/****2017.10.25 add new*****/
+function pictorialBarPart(){
+	var totalPage = 2, currPage = 1;
+	var paperDataURI = './images/bar1.png';
+	var randomDatas = [
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20,
+		parseInt(Math.random()*1000)+20
+	];
+	function sortNumber(a,b)
+	{
+		return a - b
+	}
+	randomDatas = randomDatas.sort(sortNumber);
+	var pictorialBarDatas = {
+		1: [
+			{value: randomDatas[9], name: '区域地质与基础地质'},
+			{value: randomDatas[8], name: '物化遥'},
+			{value: randomDatas[7], name: '地质文献与资料'},
+			{value: randomDatas[6], name: '能源矿产'},
+			{value: randomDatas[5], name: '管理支撑'}
+		],
+		2: [
+			{value: randomDatas[4], name: '综合成果'},
+			{value: randomDatas[3], name: '矿产'},
+			{value: randomDatas[2], name: '水工环地质'},
+			{value: randomDatas[1], name: '海洋地质'},
+			{value: randomDatas[0], name: '钻孔'}
+		]
+	} ;
+	totalPage = Object.keys(pictorialBarDatas).length;
+	function pictorialBar(){
+
+		pictorialBarSeries = [], xAxisDatas = [];
+		for (var i = 0; i < pictorialBarDatas[currPage].length; i++) {
+			pictorialBarSeries.push({
+				value: pictorialBarDatas[currPage][i].value,
+				symbol: 'image://' + paperDataURI,
+				symbolRepeat: true,
+				symbolSize: ['80%', '20%'],
+				symbolMargin: '0%',
+				animationDuration: 2000,
+				animationDelay: function (dataIndex, params) {
+					return params.index * 30;
+				}
+			});
+			xAxisDatas.push(pictorialBarDatas[currPage][i].name);
+		};
+		currPage+=1;
+		if (currPage > totalPage) {
+			currPage = 1;
+		};
+
+		
+		pictorialBarOption = {
+			backgroundColor: 'transparent',
+			tooltip: {},
+			xAxis: [{
+				data: xAxisDatas,
+				axisTick: {show: false},
+				axisLine: {show: false},
+				axisLabel: {
+					margin: 20,
+					interval: 0,
+					textStyle: {
+						color: '#FFFFFF',
+						fontSize: 24
+					}
+				}
+			}],
+			yAxis: {
+				splitLine: {show: false},
+				axisTick: {show: false},
+				axisLine: {show: false},
+				axisLabel: {show: false}
+			},
+			markLine: {
+				z: -1
+			},
+			animationEasing: 'elasticOut',
+			series: {
+				type: 'pictorialBar',
+				name: '地质调查数据资源',
+				hoverAnimation: true,
+				label: {
+					normal: {
+						show: true,
+						position: 'top',
+						formatter: '{c} G',
+						textStyle: {
+							fontSize: 24,
+							color: '#1FF4FC'
+						}
+					}
+				},
+				data: pictorialBarSeries,
+			}
+		};
+		pictorialBarEcharts = echarts.init($('#GeoSurveyData').get(0));
+		pictorialBarEcharts.setOption(pictorialBarOption);
+	}
+	pictorialBar();
+	setInterval(function(){
+		echarts.dispose(pictorialBarEcharts);
+		pictorialBar();
+	},1000*20);
 }

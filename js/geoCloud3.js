@@ -1,781 +1,45 @@
-var mapOption, M1;
-var CloudDiskOption1, CloudDisk1, timeTicket = null, count = 0;
-var PressOption, PressEC1,PressEC2,PressEC3;
-var RateOption, RateEC1,RateEC2,RateEC3;
-var dataTime, dataTimes, dataVslues, dataVslues = [[ 0, 0, 0, 0, 0],[ 0, 0, 0, 0, 0],[ 0, 0, 0, 0, 0]];
-var dataUrl = 'http://localhost/geoCloud/get_data.php?act=';
+var mapOption, M1, pointStatusOption, statusChart;
+var dataUrl = 'get_data.php?act=';
+var geoCoordMap = null;
+var status_num = 0;
+var monthServiceOption, monthServiceECharts, numRun;
 $(function(){
-	dataTime = [(new Date(new Date()-5*60*1000)).Format('hh:mm'),(new Date(new Date()-4*60*1000)).Format('hh:mm'),(new Date(new Date()-3*60*1000)).Format('hh:mm'),(new Date(new Date()-2*60*1000)).Format('hh:mm'),(new Date(new Date()-60*1000)).Format('hh:mm')];
-	dataTimes = [dataTime, dataTime, dataTime];
-	MainPartMap();
-	cloudDiskOnlineUserUpdate();
-	cloudDiskDataUpdate();
-	RateDatas();
-	MainDataUpdate();
-	setIntervalAllData(5000);
+	// ajaxGetData('get_node_relationship','POINTSERVERLINK', true);
+	// ajaxGetData('get_geo_dbs','POINTDATA', true);
+	// ajaxGetData('get_data_visit_monitor','DATASERVERVISITMONITOR', true);
+	
+	// ajaxGetData('','POINTSTATUS', true);
+	// calculateScale();
+	// $(window).resize(function(){
+	// 	calculateScale();
+	// })
+	getPointServerLinkPart();
+	pointDataPart();
+	rightPart2();
+	pointStatusPart();
+	
 })
 
-function setIntervalAllData(millisec){
-	setInterval(function(){
-		MainDataUpdate();
-		cloudDiskOnlineUserUpdate();
-		cloudDiskDisplay();
-	}, millisec);
-	setInterval(function(){
-		ajaxGetData('get_main_bottom', 'MAINRATE');
-		
-	}, 1000);
-}
 
-function MainPartMap(){
-
-	var geoCoordMap = {
-			'上海': [121.4648,31.2891],
-			'东莞': [113.8953,22.901],
-			'东营': [118.7073,37.5513],
-			'中山': [113.4229,22.478],
-			'临汾': [111.4783,36.1615],
-			'临沂': [118.3118,35.2936],
-			'丹东': [124.541,40.4242],
-			'丽水': [119.5642,28.1854],
-			'乌鲁木齐': [87.9236,43.5883],
-			'佛山': [112.8955,23.1097],
-			'保定': [115.0488,39.0948],
-			'兰州': [103.5901,36.3043],
-			'包头': [110.3467,41.4899],
-			'北京': [116.4551,40.2539],
-			'北海': [109.314,21.6211],
-			'南京': [118.8062,31.9208],
-			'南宁': [108.479,23.1152],
-			'南昌': [116.0046,28.6633],
-			'南通': [121.1023,32.1625],
-			'厦门': [118.1689,24.6478],
-			'台州': [121.1353,28.6688],
-			'合肥': [117.29,32.0581],
-			'呼和浩特': [111.4124,40.4901],
-			'咸阳': [108.4131,34.8706],
-			'哈尔滨': [127.9688,45.368],
-			'唐山': [118.4766,39.6826],
-			'嘉兴': [120.9155,30.6354],
-			'大同': [113.7854,39.8035],
-			'大连': [122.2229,39.4409],
-			'天津': [117.4219,39.4189],
-			'太原': [112.3352,37.9413],
-			'威海': [121.9482,37.1393],
-			'宁波': [121.5967,29.6466],
-			'宝鸡': [107.1826,34.3433],
-			'宿迁': [118.5535,33.7775],
-			'常州': [119.4543,31.5582],
-			'广州': [113.5107,23.2196],
-			'廊坊': [116.521,39.0509],
-			'延安': [109.1052,36.4252],
-			'张家口': [115.1477,40.8527],
-			'徐州': [117.5208,34.3268],
-			'德州': [116.6858,37.2107],
-			'惠州': [114.6204,23.1647],
-			'成都': [103.9526,30.7617],
-			'扬州': [119.4653,32.8162],
-			'承德': [117.5757,41.4075],
-			'拉萨': [91.1865,30.1465],
-			'无锡': [120.3442,31.5527],
-			'日照': [119.2786,35.5023],
-			'昆明': [102.9199,25.4663],
-			'杭州': [119.5313,29.8773],
-			'枣庄': [117.323,34.8926],
-			'柳州': [109.3799,24.9774],
-			'株洲': [113.5327,27.0319],
-			'武汉': [114.3896,30.6628],
-			'汕头': [117.1692,23.3405],
-			'江门': [112.6318,22.1484],
-			'沈阳': [123.1238,42.1216],
-			'沧州': [116.8286,38.2104],
-			'河源': [114.917,23.9722],
-			'泉州': [118.3228,25.1147],
-			'泰安': [117.0264,36.0516],
-			'泰州': [120.0586,32.5525],
-			'济南': [117.1582,36.8701],
-			'济宁': [116.8286,35.3375],
-			'海口': [110.3893,19.8516],
-			'淄博': [118.0371,36.6064],
-			'淮安': [118.927,33.4039],
-			'深圳': [114.5435,22.5439],
-			'清远': [112.9175,24.3292],
-			'温州': [120.498,27.8119],
-			'渭南': [109.7864,35.0299],
-			'湖州': [119.8608,30.7782],
-			'湘潭': [112.5439,27.7075],
-			'滨州': [117.8174,37.4963],
-			'潍坊': [119.0918,36.524],
-			'烟台': [120.7397,37.5128],
-			'玉溪': [101.9312,23.8898],
-			'珠海': [113.7305,22.1155],
-			'盐城': [120.2234,33.5577],
-			'盘锦': [121.9482,41.0449],
-			'石家庄': [114.4995,38.1006],
-			'福州': [119.4543,25.9222],
-			'秦皇岛': [119.2126,40.0232],
-			'绍兴': [120.564,29.7565],
-			'聊城': [115.9167,36.4032],
-			'肇庆': [112.1265,23.5822],
-			'舟山': [122.2559,30.2234],
-			'苏州': [120.6519,31.3989],
-			'莱芜': [117.6526,36.2714],
-			'菏泽': [115.6201,35.2057],
-			'营口': [122.4316,40.4297],
-			'葫芦岛': [120.1575,40.578],
-			'衡水': [115.8838,37.7161],
-			'衢州': [118.6853,28.8666],
-			'西宁': [101.4038,36.8207],
-			'西安': [109.1162,34.2004],
-			'贵阳': [106.6992,26.7682],
-			'连云港': [119.1248,34.552],
-			'邢台': [114.8071,37.2821],
-			'邯郸': [114.4775,36.535],
-			'郑州': [113.4668,34.6234],
-			'鄂尔多斯': [108.9734,39.2487],
-			'重庆': [107.7539,30.1904],
-			'金华': [120.0037,29.1028],
-			'铜川': [109.0393,35.1947],
-			'银川': [106.3586,38.1775],
-			'镇江': [119.4763,31.9702],
-			'长春': [125.8154,44.2584],
-			'长沙': [113.0823,28.2568],
-			'长治': [112.8625,36.4746],
-			'阳泉': [113.4778,38.0951],
-			'青岛': [120.4651,36.3373],
-			'韶关': [113.7964,24.7028]
-		};
-
-		var BJData = [
-			[{name:'北京'}, {name:'上海',value:95}],
-			[{name:'北京'}, {name:'广州',value:90}],
-			[{name:'北京'}, {name:'大连',value:80}],
-			[{name:'北京'}, {name:'南宁',value:70}],
-			[{name:'北京'}, {name:'南昌',value:60}],
-			[{name:'北京'}, {name:'拉萨',value:50}],
-			[{name:'北京'}, {name:'长春',value:40}],
-			[{name:'北京'}, {name:'包头',value:30}],
-			[{name:'北京'}, {name:'重庆',value:20}],
-			[{name:'北京'}, {name:'常州',value:10}],
-			[{name:'北京'}, {name:'武汉',value:75}],
-			[{name:'北京'}, {name:'乌鲁木齐',value:90}],
-			[{name:'北京'}, {name:'呼和浩特',value:80}],
-			[{name:'北京'}, {name:'烟台',value:70}],
-			[{name:'北京'}, {name:'福州',value:60}],
-			[{name:'北京'}, {name:'哈尔滨',value:50}],
-			[{name:'北京'}, {name:'郑州',value:40}],
-			[{name:'北京'}, {name:'西安',value:30}],
-			[{name:'北京'}, {name:'昆明',value:20}],
-			[{name:'北京'}, {name:'成都',value:10}]
-		];
-
-
-		var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
-
-		var convertData = function (data) {
-			var res = [];
-			for (var i = 0; i < data.length; i++) {
-				var dataItem = data[i];
-				var fromCoord = geoCoordMap[dataItem[0].name];
-				var toCoord = geoCoordMap[dataItem[1].name];
-				if (fromCoord && toCoord) {
-					res.push({
-						fromName: dataItem[0].name,
-						toName: dataItem[1].name,
-						coords: [fromCoord, toCoord]
-					});
-				}
-			}
-			return res;
-		};
-
-		var color = ['#a6c84c'];
-		var series = [];
-		[['北京', BJData]].forEach(function (item, i) {
-			series.push({
-				name: item[0] + ' No.1',
-				type: 'lines',
-				zlevel: 1,
-				effect: {
-					show: true,
-					period: 6,
-					trailLength: 0.7,
-					color: '#fff',
-					symbolSize: 3
-				},
-				lineStyle: {
-					normal: {
-						color: color[i],
-						width: 0,
-						curveness: 0.2
-					}
-				},
-				data: convertData(item[1])
-			},
-			{
-				name: item[0] + ' No.1',
-				type: 'lines',
-				zlevel: 2,
-				symbol: ['none', 'arrow'],
-				symbolSize: 10,
-				effect: {
-					show: true,
-					period: 6,
-					trailLength: 0,
-					symbol: planePath,
-					symbolSize: 15
-				},
-				lineStyle: {
-					normal: {
-						color: color[i],
-						width: 1,
-						opacity: 0.6,
-						curveness: 0.2
-					}
-				},
-				data: convertData(item[1])
-			},
-			{
-				name: item[0] + ' No.1',
-				type: 'effectScatter',
-				coordinateSystem: 'geo',
-				zlevel: 2,
-				rippleEffect: {
-					brushType: 'stroke'
-				},
-				label: {
-					normal: {
-						show: true,
-						position: 'right',
-						formatter: '{b}  '
-					}
-				},
-				symbolSize: function (val) {
-					return val[2] / 8;
-				},
-				itemStyle: {
-					normal: {
-						color: color[i]
-					}
-				},
-				data: 
-				item[1].map(function (dataItem) {
-					return {
-						name: dataItem[1].name + ' ' + dataItem[1].value,
-						value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
-					};
-				})
-			});
-		});
-
-		mapOption = {
-			backgroundColor: 'transparent',
-			title : {
-				text: '',
-				subtext: '',
-				left: 'center',
-				textStyle : {
-					color: '#fff'
-				}
-			},
-			tooltip : {
-				trigger: 'item'
-			},
-			legend: {
-				orient: 'vertical',
-				top: 'bottom',
-				left: 'right',
-				show: false,
-				data:['北京 No.1'],
-				textStyle: {
-					color: '#fff'
-				},
-				selectedMode: 'single'
-			},
-			geo: {
-				map: 'china',
-				label: {
-					emphasis: {
-						show: false
-					}
-				},
-				top:70,
-				left:220,
-				zoom: 1.2,
-				roam: true,
-				itemStyle: {
-					normal: {
-						areaColor: '#323c48',
-						borderColor: 'rgba(100,149,237,1)',
-						areaColor:'transparent'
-					},
-					emphasis: {
-						areaColor: '#2a333d'
-					}
-				}
-			},
-			series: series
-		};
-		M1 = echarts.init(document.getElementById('Map'));
-		M1.setOption(mapOption);
-}
-
-function cloudDiskData(data){
-	var legendData = [];
-	for (var i = 0; i < data.length; i++) {
-		legendData.push(data[i].name);
-	};
-	CloudDiskOption1 = {
-		tooltip: {
-			trigger: 'item',
-			formatter: "{b}: {c}<br /> {d}%"
-		},
-		legend: {
-			orient: 'horizontal',
-			x: 'left',
-			data:legendData,
-			itemHeight:12,
-			itemWidth:12,
-			itemGap:16,
-			textStyle : {
-				color: '#FFFFFF',
-				fontSize:14
-			}
-		},
-		color:['#39B1D3','#DC5969','#77BB67','#E2C969'],
-		series: [
-			{
-				name:'总计100',
-				type:'pie',
-				radius: ['50%', '70%'],
-				center: ['50%', '55%'],
-				avoidLabelOverlap: true,
-				label: {
-					normal: {
-						formatter: "{b} ：{c}个 ({d}%)",
-						show: false,
-						position: 'center',
-						textStyle:{
-							fontSize: 14,
-							color:'#FFFFFF'
-						}
-						
-					},
-					emphasis: {
-						show: false,
-						textStyle: {
-							fontSize: '18',
-							fontWeight: 'bold'
-						}
-					}
-				},
-				labelLine: {
-					normal: {
-						show: false,
-						color: '#12B6FF',
-						lineStyle: {
-							color: '#12B6FF'
-						}
-					}
-				},
-				data:data
-			}
-		]
-	};
-	CloudDisk1 = echarts.init(document.getElementById('softType'));
-	CloudDisk1.setOption(CloudDiskOption1);
-	var app_total = 0;
-	for (var i = 0; i < CloudDisk1.getOption().series[0].data.length; i++) {
-		app_total += parseInt(CloudDisk1.getOption().series[0].data[i].value);
-	};
-	$('#cloudDisk .title .total-count').text('共计：'+app_total);
-	cloudDiskDisplay();
-}
-
-function cloudDiskDataUpdate(){
-	ajaxGetData('get_cloud_desktop_online','MAINDISK');
-}
-
-function cloudDiskDisplay(){
-	CloudDisk1.dispatchAction({
-		type: 'downplay',
-		seriesIndex: 0
-	});
-	CloudDisk1.dispatchAction({
-		type: 'highlight',
-		seriesIndex: 0,
-		dataIndex: count % 4
-	});
-	CloudDisk1.dispatchAction({
-		type: 'showTip',
-		seriesIndex: 0,
-		dataIndex: count % 4
-	});
-	count++;
-	// console.log((new Date()).getSeconds());
-}
-
-function cloudDiskOnlineUserUpdate(){
-	ajaxGetData('get_cloud_desktop_online', 'MAINONLINEUSERS');
-}
-
-function MainDataUpdate(){
-	ajaxGetData('get_accesses', 'MAINACCESSES');
-	ajaxGetData('get_visits', 'MAINVISIT');
-}
-
-
-function displayNum(num, obj, digit, isUnit){
-	num = parseInt(num).toString();
-	num_test = num.split('');
-	var j = num_test.length, decimal = 0, unit_eve = 1;
-	if (isUnit) {
-		if (j<=4){
-			unit_eve = 1;
-			decimal = 0;
-		}else if(j>4 && j < 9) {
-			$(obj).find('.unit').text('万').addClass('show');
-			if (j == 8) {
-				decimal = 1;
-			}else{
-				decimal = 2;
-			};
-			unit_eve = 10000;
-		}else if(j>=9 && j<13){
-			$(obj).find('.unit').text('亿').addClass('show');
-			if (j == 12) {
-				decimal = 1;
-			}else{
-				decimal = 2;
-			};
-			unit_eve = 100000000;
-		}else{
-			$(obj).find('.unit').text('万亿').addClass('show');
-			decimal = 1;
-			unit_eve = 1000000000000;
-		};
-	};
-	num = (parseInt(num)/unit_eve).toFixed(decimal);
-	num = num.split('');
-	j = num.length;
-
-	for (var i = digit; i > 0; i--) {
-		if (j > 0) {
-			$($(obj).find('.num-item').get(i - 1)).text(num[j - 1]);
-			j--;
-		}else{
-			$($(obj).find('.num-item').get(i - 1)).text(0);
-		};
-		
-	};
-}
-
-function cloudDiskOnlineUser(dataArray){
-	var data = [];
-	for (var i = 0; i < dataArray.length; i++) {
-		data.push(dataArray[i].value);
-	};
-	var  img_length = 228;
-	var max_data = Math.max.apply(null, data);
-	var user_str = '';
-	for (var i = 0; i < data.length; i++) {
-		var percent = 0;
-		if (max_data != 0) {
-			if (max_data != data[i]) {
-				percent = parseInt((data[i] / max_data)*100);
-			}else{
-				percent = 100;
-			};
-		};
-		
-		user_str += '<div class="user-item">'+
-				'<div class="user-img user-img'+(i+1)+' Left" style="width:'+percent+'%;"></div>'+
-				'<span class="user-data Right">'+data[i]+'人</span>'+
-			'</div>';
-	};
-	$('#cloudDisk .online-users .user-list').html(user_str);
-}
-
-function RateDatas(){
-
-	PressOption = {
-		backgroundColor: 'transparent',
-		tooltip : {
-			formatter: "{c} {b}"
-		},
-		series : [
-			{
-				name:'',
-				type:'gauge',
-				min:0,
-				max:100,
-				splitNumber:10,
-				radius: '100%',
-				axisLine: {            // 坐标轴线
-					lineStyle: {       // 属性lineStyle控制线条样式
-						color: [[0.2, 'lime'],[0.8, '#1e90ff'],[1, '#ff4500']],
-						width: 2
-					}
-				},
-				axisLabel: {            // 坐标轴小标记
-					textStyle: {       // 属性lineStyle控制线条样式
-						fontWeight: 'normal',
-						color: '#fff'
-					}
-				},
-				axisTick: {            // 坐标轴小标记
-					length :5,        // 属性length控制线长
-					lineStyle: {       // 属性lineStyle控制线条样式
-						color: 'auto'
-					}
-				},
-				splitLine: {           // 分隔线
-					length :10,         // 属性length控制线长
-					lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-						width:1,
-						color: '#fff'
-					}
-				},
-				pointer: {           // 分隔线
-					shadowColor : '#fff', //默认透明
-					shadowBlur: 5,
-					width: 3
-				},
-				title : {
-					textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-						fontWeight: 'bolder',
-						fontSize: 12,
-						fontStyle: 'italic',
-						color: '#fff'
-					}
-				},
-				detail : {
-					backgroundColor: 'transparent',
-					offsetCenter: [0, '65%'],       // x, y，单位px
-					textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-						fontWeight: 'bolder',
-						color: '#fff',
-						fontSize: 18
-					},
-					formatter:'{value}%'
-				},
-				data:[{value: 0, name: ''}]
-			}
-		]
-	};
-
-	RateOption = {
-		backgroundColor: 'transparent',
-		title: {
-			text: '访问频率',
-			show:false,
-			textStyle: {
-				fontWeight: 'normal',
-				fontSize: 16,
-				color: '#F1F1F3'
-			},
-			left: '6%'
-		},
-		tooltip: {
-			trigger: 'axis',
-			axisPointer: {
-				lineStyle: {
-					color: '#57617B'
-				}
-			}
-		},
-		grid: {
-			left: '3%',
-			right: '4%',
-			bottom: '3%',
-			containLabel: true
-		},
-		xAxis: [{
-			type: 'category',
-			boundaryGap: true,
-			splitNumber:5,
-			axisTick: {
-				show: false
-			},
-			axisLine: {
-				// show:false,
-				onZero:false,
-				lineStyle: {
-					color: '#8A86A7'
-				}
-			},
-			axisLabel: {
-				margin: 10,
-				textStyle: {
-					fontSize: 12,
-					color:'#FFFFFF'
-				}
-			} ,
-			data: dataTimes[0]
-		}],
-		yAxis: [{
-			type: 'value',
-			name: '次',
-			splitNumber: 3,
-			axisTick: {
-				show: false
-			},
-			axisLine: {
-				show:true,
-				lineStyle: {
-					color: '#8A86A7'
-				}
-			},
-			axisLabel: {
-				margin: 10,
-				textStyle: {
-					fontSize: 14,
-					color:'#FFFFFF'
-				}
-			},
-			splitLine: {
-				show:false,
-				lineStyle: {
-					color: '#57617B'
-				}
-			}
-		}],
-		series: [{
-			name: '',
-			type: 'line',
-			smooth: true,
-			symbol: 'circle',
-			symbolSize: 5,
-			showAllSymbol:true,
-			showSymbol: true,
-			lineStyle: {
-				normal: {
-					width: 1
-				}
-			},
-			areaStyle: {
-				normal: {
-					color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-						offset: 0,
-						color: 'rgba(137, 189, 27, 0.8)'
-					}, {
-						offset: 1,
-						color: 'rgba(137, 189, 27, 0)'
-					}], false),
-					shadowColor: 'rgba(0, 0, 0, 0.1)',
-					shadowBlur: 10
-				}
-			},
-			itemStyle: {
-				normal: {
-					color: '#FFF600'
-				}
-			},
-			data: dataVslues[0]
-		}]
-	};
-
-	//model 1
-	PressEC1 = echarts.init(document.getElementById('DataPress'));
-	
-	// PressOption.series[0].data[0].value = (Math.random()*100).toFixed(1) - 0;
-	PressEC1.setOption(PressOption);
-	RateEC1 = echarts.init(document.getElementById('DataRate'));
-	RateEC1.setOption(RateOption);
-
-	//model 2
-	PressEC2 = echarts.init(document.getElementById('ProductPress'));
-	PressEC2.setOption(PressOption);
-	RateEC2 = echarts.init(document.getElementById('ProductRate'));
-	RateEC2.setOption(RateOption);
-
-	//model 3
-	PressEC3 = echarts.init(document.getElementById('AppPress'));
-	PressEC3.setOption(PressOption);
-	RateEC3 = echarts.init(document.getElementById('AppRate'));
-	RateEC3.setOption(RateOption);
-	ajaxGetData('get_main_bottom', 'MAINRATE');
-}
-
-function pressDataDeal(echart, value){
-	PressOption.series[0].data[0].value = value;
-	echart.setOption(PressOption);
-}
-
-function RateDataDeal(echart, dataArray, dataType, value){
-	dataArray.push(value);
-	dataArray.splice(0,1);
-	if (dataType == 'time') {
-		for (var i = 0; i < dataArray.length; i++) {
-			RateOption.xAxis[0].data[i] = dataArray[i];
-		};
-	}else {
-		for (var i = 0; i < dataArray.length; i++) {
-			RateOption.series[0].data[i] = dataArray[i];
-		};
-	};
-	
-}
-
-function RateDataShow(data){
-	var date = new Date();
-	var timeCurr = date.Format('hh:mm');
-
-	pressDataDeal(PressEC1, data.data_p);
-	RateDataDeal(RateEC1, dataVslues[0], 'nums', data.data_f);
-	RateDataDeal(RateEC1, dataTimes[0], 'time', timeCurr);
-	RateEC1.setOption(RateOption);
-
-	pressDataDeal(PressEC2, data.prod_p);
-	RateDataDeal(RateEC2, dataVslues[1], 'nums', data.prod_f);
-	RateDataDeal(RateEC2, dataTimes[1], 'time', timeCurr);
-	RateEC2.setOption(RateOption);
-
-	pressDataDeal(PressEC3, data.app_p);
-	RateDataDeal(RateEC3, dataVslues[2], 'nums', data.app_f);
-	RateDataDeal(RateEC3, dataTimes[2], 'time', timeCurr);
-	RateEC3.setOption(RateOption);
-}
-
-Date.prototype.Format = function (fmt) { //author: meizz 
-    var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
-
-function ajaxGetData(act, type){
+function ajaxGetData(act, type, async){
 	$.ajax({
 		url: dataUrl+act,
-		cache:false,
+		cache: false,
+		async: async,
 		success:function(data){
 			data = JSON.parse(data);
 			switch(type){
-				case 'MAINRATE':
-					RateDataShow(data);
+				case 'POINTSERVERLINK':
+					getPointServerLinkPart(data);
 					break;
-				case 'MAINACCESSES':
-					displayNum(data.accesses, $('#SysIn'), 5, false);
-					break
-				case 'MAINVISIT':
-					displayNum(data.total, $('#Visit'), 7, true);
-					$('#otherData .business span').text(data.user1);
-					$('#otherData .internet span').text(data.user2);
+				case 'POINTDATA':
+					pointDataPart(data);
 					break;
-				case 'MAINONLINEUSERS':
-					cloudDiskOnlineUser(data);
+				case 'DATASERVERVISITMONITOR':
+					rightPart2(data);
 					break;
-				case 'MAINDISK':
-					cloudDiskData(data);
+				case 'POINTSTATUS':
+					pointStatusPart(data);
 					break;
 				default:
 					break;
@@ -783,4 +47,729 @@ function ajaxGetData(act, type){
 
 		}
 	})
+}
+
+function calculateScale(){
+	var standardX = 3840, standardY = 1080;
+	var borserW = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+	var borserH = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
+	var newH = Math.round((9/32)*borserW);
+	var marginTop = (borserH - newH)/2;
+	var scaleX = parseFloat(borserW/standardX);
+	$('.GeoCloud').css('-webkit-transform','scale('+scaleX+')');
+	$('.GeoCloud').css('-ms-transform','scale('+scaleX+')');
+	$('.GeoCloud').css('transform','scale('+scaleX+')');
+	$('.GeoCloud').css('margin-top',marginTop+'px');
+}
+// 节点服务关系图
+function getPointServerLinkPart(data){
+	var data = {"0":["国土资源部","中国地质调查局","地科院","发展研究中心","天津地调中心","沈阳地调中心","南京地调中心","武汉地调中心","成都地调中心","西安地调中心","广州海洋局","青岛海洋所","航空物探遥感中心","物化探所","油气调查中心","地质所","资源所","地质力学所","环境监测院","水环中心","岩溶所","实物资料中心","地质图书馆","矿业报社","实验测试中心","勘探技术所","探矿工程所","探矿工艺所","郑州综合利用所","成都综合利用所"],"1":["60","70","80","90","50","35","97","12","34","56","78","67","90","98","76","36","85","14","36","48","95","74","43","25","36","27","24","22","11","33"],"2":["1","2","2","2","2","2","2","2","3","3","3","3","3","3","3","3","3","3","3","3","4","4","4","4","4","4","4","4","4","4"],"total":1602};
+	var data_r_1 = new Array();
+	data_r_1[0] = new Array();
+	data_r_1[1] = new Array();
+	data_r_1[3] = new Array();
+	for(var node_num=0;node_num<data[0].length;node_num++){
+		data[2][node_num] --;
+	}
+	data_r_1[0] = data[0];
+	data_r_1[1] = data[2];
+	data_r_1[2] = data['total']+'GB';
+	data_r_1[3] = data[1];
+	// 统计
+	pointServer(getDataL1(data_r_1),getLinkL1(data_r_1));
+	function getDataL1(data){
+		var arr = new Array();
+		for(var i=0;i<data[0].length;i++){
+			arr[i] =  new Object();
+			arr[i]['name'] = data[0][i];
+			arr[i]['category'] = data[1][i];
+			arr[i]['value'] = data[3][i];
+			if(data[1][i] === 0){
+				arr[i]['symbolSize'] = 90;
+			}else if(data[1][i] === 1){
+				arr[i]['symbolSize'] = 55;
+			}else{
+				arr[i]['symbolSize'] = 35;
+			}
+		}
+		return arr;
+	}
+	function getLinkL1(data){
+		var arr = new Array();
+		var num = 1;
+		for(var i=0;i<data[0].length;i++){
+			arr[i] =  new Object();
+			arr[i]['source'] = 0;
+			arr[i]['target'] = num;
+			num ++;
+		}
+		return arr;
+	}
+	
+	// 节点服务关系图
+	function pointServer(data_r_1,link_r_1){
+		var myChart = echarts.init(document.getElementById('r-1-1'));
+		var option = {
+		    title: {
+		        text: ''
+		    },
+		    legend: {
+		        orient: 'vertical',
+		        x: 'right',
+		        y: 'bottom',
+		        textStyle:{
+		        	color:'#fff',
+		        	fontSize: 24,
+		        },
+		        align: 'left',
+		        itemWidth: 24,
+		        itemHeight: 24,
+		        data: ['中心节点','区节点','节点', '尚未接入节点'],
+		     
+		    },
+		    tooltip: {
+				trigger: 'item',
+				formatter: function(params){
+					var name = params.data['name'];
+					var value = params.data['value'];
+					return name+'<br/>'+value+'GB';
+				},
+				position: 'right',
+				borderColor: '#FFFFFF',
+				borderWidth: 1,
+				backgroundColor: 'rgba(0,0,0,0.8)',
+				textStyle: {
+					fontSize: 18,
+					fontWeight: 'normal'
+				}
+		    },
+		    animationDurationUpdate: 1500,
+		    animationDelayUpdate:1500,
+		    animationEasing:'quinticInOut',
+		    series: [
+		        {
+		            type: 'graph',
+		            layout: 'force',
+		            symbolSize: 45,
+		            focusNodeAdjacency: true,
+		            roam: true,
+		            
+		            categories: [{
+		                name: '中心节点',
+		                itemStyle: {
+		                    normal: {
+		                        color: "#1279e9",
+		                    },
+		                },
+		                label: {
+					        emphasis:{
+			                    fontSize: 18
+			                },
+					    },
+		            },{
+		                name: '区节点',
+		                itemStyle: {
+		                    normal: {
+		                        color: "#04cfed",
+		                    }
+		                },
+		                label: {
+					        emphasis:{
+			                   	show: false,
+			                   	fontSize: 18
+			                },
+					    },
+		            },{
+		                name: '节点',
+		                itemStyle: {
+		                    normal: {
+		                        color: "#ffd300",
+		                    }
+		                },
+		                label: {
+					        emphasis:{
+			                   	show: false,
+			                    fontSize: 18
+			                },
+					    },
+		            }, {
+		                name: '尚未接入节点',
+		                itemStyle: {
+		                    normal: {
+		                        color: "#585986",
+		                    }
+		                },
+		                label: {
+					        emphasis:{
+			                   	show: false,
+			                   	fontSize: 18
+			                },
+					    },
+		            }],
+		            
+		            force: {
+		                repulsion: 340,
+		            },
+		            data: data_r_1,
+		            links: link_r_1,
+		            lineStyle: {
+		                normal: {
+		                    opacity: 1,
+		                    width: 1,
+		                    curveness: 0
+		                }
+		            }
+		        }
+		    ]
+		};
+		myChart.setOption(option);
+		var count = 0;
+		var timeTicket = null;
+		timeTicket && clearInterval(timeTicket);
+		timeTicket = setInterval(function() {
+			var data_length = option.series[0].data.length;
+		    myChart.dispatchAction({
+		    type: 'focusNodeAdjacency',
+		    dataIndex: count % (data_length-1)+1,
+		    });
+		    myChart.dispatchAction({
+			    type: 'showTip',
+			    seriesIndex: 0,
+			    dataIndex: count % (data_length-1)+1,
+			});
+		    count++;
+		}, 5000);
+	}
+}
+// 节点专业数据
+function pointDataPart(data){
+	var data = [{"db_name":"区域地质与基础地质数据库","info":"1200"},{"db_name":"矿产地质数据库","info":"1000"},{"db_name":"物化遥数据库","info":"1500"},{"db_name":"水工环地质数据库","info":"900"},{"db_name":"海洋地质数据库","info":"800"},{"db_name":"钻孔数据库","info":"1000"},{"db_name":"地质文献与资料数据库","info":"1000"},{"db_name":"能源矿产数据库","info":"700"},{"db_name":"管理支撑数据库","info":"1400"},{"db_name":"综合成果数据库","info":"2000"}];
+	var randomDatas = data.sort(sortNumber);
+	var pictorialBarDatas = new Object;
+	pictorialBarDatas[1] = randomDatas.slice(0,5);
+	pictorialBarDatas[2] = randomDatas.slice(5);
+
+	var totalPage = 2, currPage = 1;
+	var paperDataURI = './images/bar1.png';
+	// var randomDatas = [
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20,
+	// 	parseInt(Math.random()*1000)+20
+	// ];
+	function sortNumber(a,b)
+	{
+		return b['info'] - a['info']
+	}
+	// randomDatas = randomDatas.sort(sortNumber);
+	// var pictorialBarDatas = {
+	// 	1: [
+	// 		{value: randomDatas[9], name: '区域地质与基础地质'},
+	// 		{value: randomDatas[8], name: '物化遥'},
+	// 		{value: randomDatas[7], name: '地质文献与资料'},
+	// 		{value: randomDatas[6], name: '能源矿产'},
+	// 		{value: randomDatas[5], name: '管理支撑'}
+	// 	],
+	// 	2: [
+	// 		{value: randomDatas[4], name: '综合成果'},
+	// 		{value: randomDatas[3], name: '矿产'},
+	// 		{value: randomDatas[2], name: '水工环地质'},
+	// 		{value: randomDatas[1], name: '海洋地质'},
+	// 		{value: randomDatas[0], name: '钻孔'}
+	// 	]
+	// } ;
+	totalPage = Object.keys(pictorialBarDatas).length;
+	function pictorialBar(){
+
+		pictorialBarSeries = [], xAxisDatas = [];
+		for (var i = 0; i < pictorialBarDatas[currPage].length; i++) {
+			pictorialBarSeries.push({
+				value: pictorialBarDatas[currPage][i].info,
+				symbol: 'image://' + paperDataURI,
+				symbolRepeat: true,
+				symbolSize: ['80%', '20%'],
+				symbolMargin: '0%',
+				animationDuration: 2000,
+				animationDelay: function (dataIndex, params) {
+					return params.index * 30;
+				}
+			});
+			xAxisDatas.push(pictorialBarDatas[currPage][i]['db_name']);
+		};
+		currPage+=1;
+		if (currPage > totalPage) {
+			currPage = 1;
+		};
+
+		
+		pictorialBarOption = {
+			backgroundColor: 'transparent',
+			tooltip: {},
+			grid:{
+				left: '1%',
+				right: '1%',
+			},
+			xAxis: [{
+				data: xAxisDatas,
+				axisTick: {show: false},
+				axisLine: {show: false},
+				axisLabel: {
+					margin: 20,
+					interval: 0,
+					textStyle: {
+						color: '#FFFFFF',
+						fontSize: 24
+					}
+				}
+			}],
+			yAxis: {
+				splitLine: {show: false},
+				axisTick: {show: false},
+				axisLine: {show: false},
+				axisLabel: {show: false}
+			},
+			markLine: {
+				z: -1
+			},
+			animationEasing: 'elasticOut',
+			series: {
+				type: 'pictorialBar',
+				name: '地质调查数据资源',
+				hoverAnimation: true,
+				label: {
+					normal: {
+						show: true,
+						position: 'top',
+						formatter: '{c} G',
+						textStyle: {
+							fontSize: 24,
+							color: '#1FF4FC'
+						}
+					}
+				},
+				data: pictorialBarSeries,
+			}
+		};
+		pictorialBarEcharts = echarts.init($('#point-data').get(0));
+		pictorialBarEcharts.setOption(pictorialBarOption);
+	}
+	pictorialBar();
+	setInterval(function(){
+		echarts.dispose(pictorialBarEcharts);
+		pictorialBar();
+	},5000);
+}
+// 数据服务与访问实时监控
+function rightPart2(data){
+	var data = [{"资源部":{"visit":780,"data":"100"}},{"中国地调局":{"visit":1176,"data":"90"}},{"地科院":{"visit":702,"data":"75"}},{"发展研究":{"visit":894,"data":"80"}},{"天津地调":{"visit":613,"data":"40"}},{"沈阳地调":{"visit":1097,"data":"30"}},{"南京地调":{"visit":827,"data":"20"}},{"武汉地调":{"visit":1061,"data":"50"}},{"成都地调":{"visit":853,"data":"60"}},{"西安地调":{"visit":908,"data":"90"}},{"广州海洋":{"visit":878,"data":"80"}},{"青岛海洋":{"visit":813,"data":"40"}},{"航空物遥":{"visit":623,"data":"80"}},{"物化探所":{"visit":961,"data":"70"}},{"油气调查":{"visit":434,"data":"10"}},{"地质所":{"visit":971,"data":"70"}},{"资源所":{"visit":564,"data":"70"}},{"地质力学":{"visit":757,"data":"60"}},{"环境监测院":{"visit":357,"data":"20"}},{"水环":{"visit":821,"data":"60"}},{"岩溶所":{"visit":801,"data":"40"}},{"实物资料":{"visit":967,"data":"90"}},{"地质图书馆":{"visit":989,"data":"89"}},{"矿业报社":{"visit":353,"data":"60"}},{"实验测试":{"visit":390,"data":"50"}},{"勘探技术所":{"visit":461,"data":"80"}},{"探矿工程所":{"visit":270,"data":"50"}},{"探矿工艺所":{"visit":556,"data":"61"}},{"郑州利用所":{"visit":648,"data":"40"}},{"成都利用所":{"visit":462,"data":"10"}}];
+	var data_array_x = new Array();
+	var data_array_y = new Array();
+	var data_x_1 = new Array();
+	var data_x_2 = new Array();
+	var data_x_3 = new Array();
+	var data_x_4 = new Array();
+	var data_y_11 = new Array();
+	var data_y_12 = new Array();
+	var data_y_13 = new Array();
+	var data_y_14 = new Array();
+	var data_y_21 = new Array();
+	var data_y_22 = new Array();
+	var data_y_23 = new Array();
+	var data_y_24 = new Array();
+	$.each(data, function (index, obj) {
+        $.each(obj, function (i, j) {
+    		data_array_x[index] = i;
+    		data_array_y[index] = j;
+        });
+    });
+   
+    for(var array_num=0;array_num<data_array_x.length;array_num++){
+    	if(array_num<8){
+    		data_x_1[array_num] = data_array_x[array_num];
+    		data_y_11[array_num] = data_array_y[array_num]['visit'];
+    		data_y_21[array_num] = data_array_y[array_num]['data'];
+    	}else if(array_num<16){
+    		data_x_2[array_num-8] = data_array_x[array_num];
+    		data_y_12[array_num-8] = data_array_y[array_num]['visit'];
+    		data_y_22[array_num-8] = data_array_y[array_num]['data'];
+    	}else if(array_num<24){
+    		data_x_3[array_num-16] = data_array_x[array_num];
+    		data_y_13[array_num-16] = data_array_y[array_num]['visit'];
+    		data_y_23[array_num-16] = data_array_y[array_num]['data'];
+    	}else if(array_num<32){
+    		data_x_4[array_num-24] = data_array_x[array_num];
+    		data_y_14[array_num-24] = data_array_y[array_num]['visit'];
+    		data_y_24[array_num-24] = data_array_y[array_num]['data'];
+    	}
+    }
+	// 轮播参数
+	var index = 2;
+	var picNum = 4;
+	// 产品服务量数据
+	var q_r_2_1 = 'r-2-1';
+	var q_r_2_2 = 'r-2-2';
+	var q_r_2_3 = 'r-2-3';
+	var q_r_2_4 = 'r-2-4';
+	
+	dataAndAccess(q_r_2_1,data_x_1,data_y_11,data_y_21);
+	dataAndAccess(q_r_2_2,data_x_2,data_y_12,data_y_22);
+	dataAndAccess(q_r_2_3,data_x_3,data_y_13,data_y_23);
+	dataAndAccess(q_r_2_4,data_x_4,data_y_14,data_y_24);
+	// 定时刷新
+	setInterval(function(){
+		nextBannerRight(index);
+	},5000);
+	// 刷新
+	function nextBannerRight(tarIndex){
+		index = tarIndex + 1;
+		if (index > picNum) {
+			index = 1;
+		}
+		var _target = $('.right-2-bar .fw'+tarIndex);
+		$('.right-2-bar .fw').removeClass('active');
+		$('.right-2-bar .fw').css('opacity',0);
+		_target.css('opacity',1);
+		_target.addClass('active');
+		$('.right-2-bar .banner').css('right','-1200px');
+		$('.right-2-bar .banner').animate({'right':40},800,'swing');
+		$('.right-2-bar .banner').animate({'right':0},100,'swing');
+	};
+	// 求最大值
+	function getMaxNum(data){
+		var data_max = 0;
+		for(var i=0;i<data.length-1;i++){
+			if(data[i]-data[i+1]>0 && data[i]-data_max>0){
+				data_max = data[i];
+			}else if(data[i+1] - data_max>0){
+				data_max = data[i+1];
+			}
+		}
+		return data_max;
+	}
+	// 数据服务与访问实时监控组合图
+	function dataAndAccess(q,data_x,data_y_1,data_y_2){
+		var data_y_1_max = getMaxNum(data_y_1);
+		var data_y_2_max = getMaxNum(data_y_2);
+		var myChart = echarts.init(document.getElementById(q)); 
+		var option = {
+			    tooltip: {
+			        trigger: 'axis',
+			        axisPointer: {
+			            type: 'cross',
+			            crossStyle: {
+			                color: '#999'
+			            }
+			        }
+			    },
+			    legend: {
+			    	show: false,
+			        data:['访问次数','服务个数'],
+			        top:0,
+			        right:40,
+			        itemWidth:40,	
+			        itemHeight:24,
+			        textStyle:{
+			        	color: '#fff',
+			        	fontFamily:'Microsoft YaHei',
+			        	fontSize:24,
+			        }
+			    },
+			    grid: {
+			    	left: '12%',
+			    	right: '12%',
+			    	top: '20%',
+			    	bottom: '10%',
+			    },
+			    xAxis: [
+			        {
+			            type: 'category',
+			            show: true,
+			          	splitLine: {
+			            	show:false
+			            },
+			          	axisLine: {
+			              lineStyle: {
+			          			color: '#777',
+			          		}
+			            },
+			           	axisLabel: {
+			           		textStyle: {
+			                	color: '#fff',
+			                	fontSize:24,
+			                },
+			             	interval: 0,
+			          	},
+			            data: data_x
+			        }
+			    ],
+			    yAxis: [
+			        {
+			            type: 'value',
+			            name: '访问次数',
+			            splitLine: {
+			            	lineStyle: {
+			            		color: '#333'
+			            	}
+			            },
+			            axisLabel: {
+			           		textStyle: {
+			                	color: '#fff',
+			                	fontSize:24,
+			                }
+			          	},
+			          	nameTextStyle: {
+			          		color: '#fff',
+			          		fontSize:24,
+			          		padding:[0,0,20,0],
+			          	},
+			          	axisTick: {
+			          		lineStyle: {
+			          			color: '#777',
+			          		}	
+			          	},
+			          	axisLine: {
+			          		lineStyle: {
+			          			color: '#777',
+			          		}	
+			          	},
+			            min: 0,
+			            max: Math.ceil(data_y_1_max/10)*10,
+			            interval: Math.ceil(data_y_1_max/10)*2,
+			        },
+			        {
+			            type: 'value',
+			            name: '服务个数',
+			            splitLine: {
+			            	lineStyle: {
+			            		color: '#333'
+			            	}
+			            },
+			            axisLabel: {
+			           		textStyle: {
+			                	color: '#f2fa0e',
+			                	fontSize:24,
+			                }
+			          	},
+			          	axisTick: {
+			          		inside: true,
+			          		lineStyle: {
+			          			color: '#777',
+			          		}	
+			          	},
+			          	axisLine: {
+			          		lineStyle: {
+			          			color: '#777',
+			          		}	
+			          	},
+			          	nameTextStyle: {
+			          		color: '#f2fa0e',
+			          		fontSize:24,
+			          		padding:[0,0,20,0],
+			          	},
+			            min: 0,
+			            max: Math.ceil(data_y_2_max/10)*10,
+			            interval: Math.ceil(data_y_2_max/10)*2,
+			        }
+			    ],
+			    series: [
+			        {
+			            name:'访问次数',
+			            type:'bar',
+			            barWidth : 40,
+			            barMinHeight:1,
+			            itemStyle : { 
+				            normal: {
+				                color: new echarts.graphic.LinearGradient(
+			                        0, 0, 0, 1,
+			                        [
+			                            {offset: 0, color: '#0596ea'},
+			                            {offset: 1, color: '#2d79c6'}
+			                        ]
+			                    )
+				            }
+			            },
+			            data:data_y_1
+			        },
+			        {
+			            name:'服务个数',
+			            type:'line',
+			            smooth:true,
+			            yAxisIndex: 1,
+			            symbolSize: 10,
+			            itemStyle: {
+			                normal: {
+			                    color: '#f2fa0e',
+			                    lineStyle:{  
+                                    width:'1'  
+                                } 
+			                }
+			            },
+			            areaStyle: {
+			                normal: {
+			                    color: {
+								    type: 'linear',
+								    x: 0,
+								    y: 0,
+								    x2: 0,
+								    y2: 1,
+								    colorStops: [{
+								        offset: 0, color: 'rgba(242,250,14,0.3)'
+								    }, {
+								        offset: 1, color: 'rgba(242,250,14,0)'
+								    }],
+								    globalCoord: false
+								}
+			                }
+			            },
+			            data:data_y_2
+			        }
+			    ]
+			};               
+		myChart.setOption(option); 
+	}
+}
+// 节点状态
+function pointStatusPart(){
+
+	dataStatus();
+	setInterval(function(){
+		for(var i=0;i<3;i++){
+			if(i == status_num%3){
+				pointStatusOption.series[0].data[i].selected = true;
+			}else{
+				pointStatusOption.series[0].data[i].selected = false;
+			}
+			
+		}
+		statusChart.setOption(pointStatusOption);
+		status_num++;
+	},5000);
+	function dataStatus(){
+		var data_status = [];
+		var data_point = [];
+		var status_color = [];
+		var point_color = [];
+		var data1 = [
+	                {value:335, name:'正常'},
+	                {value:679, name:'失败'},
+	                {value:1548, name:'警告'}
+	            ];
+	    var data1_total = data1[0].value+data1[1].value+data1[2].value;   
+	    var data2 = [
+	                {value:335, name:'成都地调中心', status: '1'},
+	                {value:310, name:'天津地调中心', status: '2'},
+	                {value:234, name:'南京地调中心',status: '2'},
+	                {value:135, name:'发展中心', status: '2'},
+	                {value:1048, name:'实物地质资料中心', status: '3'},
+	                {value:251, name:'西安地调中心', status: '3'},
+	                {value:147, name:'武汉地调中心', status: '3'},
+	                {value:102, name:'地学文献中心', status: '3'}
+	            ];
+	    for(var i=0;i<data1.length;i++){
+	    	switch(data1[i].name){
+	    		case'正常':
+		    		status_color[i] = '#7cae58';
+		    		break;
+		    	case'失败':
+		    		status_color[i] = '#ec1058';
+		    		break;
+		    	case'警告':
+		    		status_color[i] = '#fa6e56';
+		    		break;
+		    	default:
+		    		break;
+
+	    	}
+	    	data_status.push(
+	    			{
+	    			value:data1[i].value,
+	    			name:data1[i].name+':'+Math.round(data1[i].value/data1_total*10000)/100.00+"%",
+	    			itemStyle:{
+	    			 	normal:{
+	    			 		color:status_color[i],
+	    			 	}
+	    			}
+	    		}
+	    	)
+	    }
+	    for(var j=0;j<data2.length;j++){
+	    	switch(data2[j]['status']){
+	    		case'1':
+		    		point_color[j] = '#7cae58';
+		    		break;
+		    	case'2':
+		    		point_color[j] = '#ec1058';
+		    		break;
+		    	case'3':
+		    		point_color[j] = '#fa6e56';
+		    		break;
+		    	default:
+		    		break;
+
+	    	}
+	    	data_point.push(
+	    			{
+	    			value:data2[j].value,
+	    			name:data2[j].name,
+	    			itemStyle:{
+	    			 	normal:{
+	    			 		color:point_color[j],
+	    			 	}
+	    			}
+	    		}
+	    	)
+	    }
+
+	    console.log(point_color)
+
+
+		pointStatusOption = {
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: "{a} <br/>{b}: {c} ({d}%)",
+		    },
+		    series: [
+		        {
+		            name:'节点状态',
+		            type:'pie',
+		            selectedMode: 'single',
+		            radius: [0, '40%'],
+
+		            label: {
+		                normal: {
+		                    position: 'inner',
+		                    color:'#fff',
+		                    fontSize:18,
+		                }
+		            },
+		            labelLine: {
+		                normal: {
+		                    show: false
+		                }
+		            },
+		            data:data_status
+		        },
+		        {
+		            name:'节点状态',
+		            type:'pie',
+		            radius: ['60%', '85%'],
+		            label: {
+		                normal: {
+		                    formatter: '{b}',
+		                    fontSize:24,
+		                }
+		            },
+		            data:data_point
+		        }
+		    ]
+		};
+		statusChart = echarts.init(document.getElementById('point-status'));
+		statusChart.setOption(pointStatusOption);
+	}
 }

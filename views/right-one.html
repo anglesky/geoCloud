@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>地质云 GeoCloud</title>
+
+	<meta name="keywords" content="Javascript" />
+
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/echarts.min.js"></script>
+	<script type="text/javascript" src="../js/china.js"></script>
+	<!-- <script type="text/javascript" src="../js/geoCloud3.js"></script> -->
+	<link type="text/css" rel="stylesheet" href="../css/geoCloud.css">
+</head>
+<style type="text/css">
+	body,ul,li{
+		margin: 0px;
+		padding: 0px;
+	}
+	ul{
+		list-style: none;
+	}
+	.right-1-bar {
+		width: 1010px;
+		height: 528px;
+		border: 1px solid #5186ff;
+		box-shadow: inset 0px 0px 20px #5a3cca;
+		position: relative;
+		background-color: #1e1753;
+	}
+	.j-left-top {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -1px;
+		left: -1px;
+		background: url(../images/j_left_top.png);
+	}
+	.j-left-bottom {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		bottom: -1px;
+		left: -1px;
+		background: url(../images/j_left_bottom.png);
+	}
+	.j-right-top {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -1px;
+		right: -1px;
+		background: url(../images/j_right_top.png);
+	}
+	.j-right-bottom {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		bottom: -1px;
+		right: -1px;
+		background: url(../images/j_right_bottom.png);
+	}
+	.right-1-bar .banner {
+		position: relative;
+		height: 450px;
+		width: 100%;
+		top: -22px;
+	}
+    .right-1-bar .banner .right-1 .r-1 {
+    	width: 1010px;
+    	height: 450px;
+    }
+    .r-1-title {
+    	overflow: hidden;
+    }
+    .r-1-title .r-1-title-num {
+    	display: inline-block;
+    	min-width: 150px;
+    	height: 60px;
+    	line-height: 60px;
+    	font-size: 30px;
+    	float: right;
+    	margin: 24px 24px 0px 0px;
+    	padding: 0px 10px 0px 10px;
+    	text-align: center;
+    	color: #fee55a;
+    	border: 1px solid #3f61c2;
+    	border-radius:3px 3px 3px 3px
+    }
+    .r-1-title .r-1-title-text {
+    	display: block;
+    	width: 85px;
+    	height: 30px;
+    	line-height: 30px;
+    	font-size: 18px;
+    	float: right;
+    	margin-top: 70px;
+    	text-align: center;
+    	color: #fee55a;
+    	background-color: #1e1753;
+    }
+    .bar-title-left {
+    	float: left;
+    }
+    .bar-title-left .bar-title-leftimg{
+		height: 28px;
+		width: 88px;
+		display: inline-block;
+		background: url(../images/navi.png) no-repeat 0 center;
+		margin: 8px 0px 0px 8px;
+	}
+	.bar-title-left .bar-title-lefttext{
+		display: inline-block;
+		text-align: left;
+		font-size: 32px;
+		color: #FEE55A;
+	}
+    
+</style>
+<body>
+	<div class="right-1-bar">
+		<div class="j-left-top"></div>
+		<div class="j-left-bottom"></div>
+		<div class="j-right-top"></div>
+		<div class="j-right-bottom"></div>
+		<div class="r-1-title">
+			<div class="bar-title-left">
+				<span class="bar-title-leftimg"></span>
+				<span class="bar-title-lefttext">节点服务关系图</span>
+			</div>
+			<span class="r-1-title-num"></span>
+			<span class="r-1-title-text">数据总量</span>
+		</div>
+		<ul class="banner">
+			<li class="right-1"><div class="r-1" id="r-1-1"></div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	
+	var data_r_1 = [
+		['北京','东1','南123','西','北','上','下','国土资源部','中国地质调查局','发展研究中心','国土资源部1','中国地质调查局1','发展研究中心1','国土资源部2','中国地质调查局2','发展研究中心2','国土资源部3','中国地质调查局3','发展研究中心3','国土资源部4','中国地质调查局4','发展研究中心4','国土资源部5','中国地质调查局5','发展研究中心5','国土资源部6','中国地质调查局6','发展研究中心6','国土资源部7','中国地质调查局7','发展研究中心7','国土资源部8','中国地质调查局8','发展研究中心8','国土资源部9','中国地质调查局9','发展研究中心9','国土资源部10','中国地质调查局10','发展研究中心10','国土资源部11','中国地质调查局11','发展研究中心11','国土资源部12','中国地质调查局12','发展研究中心12','国土资源部13','中国地质调查局13','发展研究中心13'],
+		[0,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
+		['234GB']
+	];
+	// 统计
+	$('.r-1-title .r-1-title-num').text(data_r_1[2]);
+	$('.r-1-title-text').css('margin-right',-(20+$('.r-1-title-num').width()+$('.r-1-title-text').width())/2);
+	pointServer(getDataL1(data_r_1),getLinkL1(data_r_1));
+
+	// 定时刷新
+	// setInterval(function(){
+	// 	nextBanner(index);
+	// },1000);
+	function getDataL1(data){
+		var arr = new Array();
+		for(var i=0;i<data[0].length;i++){
+			arr[i] =  new Object();
+			arr[i]['name'] = data[0][i];
+			arr[i]['category'] = data[1][i];
+			if(data[1][i] === 0){
+				arr[i]['symbolSize'] = 80;
+			}else if(data[1][i] === 1){
+				arr[i]['symbolSize'] = 55;
+			}else{
+				arr[i]['symbolSize'] = 35;
+			}
+		}
+		return arr;
+	}
+	function getLinkL1(data){
+		var arr = new Array();
+		var num = 1;
+		for(var i=0;i<data[0].length;i++){
+			arr[i] =  new Object();
+			arr[i]['source'] = 0;
+			arr[i]['target'] = num;
+			num ++;
+		}
+		return arr;
+	}
+	
+	// 地质调查专业数据
+	function pointServer(data_r_1,link_r_1){
+		var myChart = echarts.init(document.getElementById('r-1-1'));
+		var option = {
+		    title: {
+		        text: ''
+		    },
+		    legend: {
+		        orient: 'vertical',
+		        x: 'right',
+		        y: 'bottom',
+		        textStyle:{
+		        	color:'#fff',
+		        	fontSize: 14,
+		        },
+		        align: 'left',
+		        itemWidth: 14,
+		        itemHeight: 14,
+		        data: ['中心节点','区节点','节点', '尚未接入节点'],
+		     
+		    },
+		    tooltip: {
+				trigger: 'item',
+				formatter: "{b}",
+				position:'right',
+		    },
+		    animationDurationUpdate: 1500,
+		    animationDelayUpdate:1500,
+		    animationEasing:'quinticInOut',
+		    series: [
+		        {
+		            type: 'graph',
+		            layout: 'force',
+		            symbolSize: 45,
+		            focusNodeAdjacency: true,
+		            roam: true,
+		            
+		            categories: [{
+		                name: '中心节点',
+		                itemStyle: {
+		                    normal: {
+		                        color: "#1279e9",
+		                    },
+		                },
+		            },{
+		                name: '区节点',
+		                itemStyle: {
+		                    normal: {
+		                        color: "#04cfed",
+		                    }
+		                },
+		                label: {
+					        emphasis:{
+			                   	show: false,
+			                    textStyle: {
+			                        fontSize: 14
+			                    },
+			                },
+					    },
+		            },{
+		                name: '节点',
+		                itemStyle: {
+		                    normal: {
+		                        color: "#ffd300",
+		                    }
+		                },
+		                label: {
+					        emphasis:{
+			                   	show: false,
+			                    textStyle: {
+			                        fontSize: 14
+			                    },
+			                },
+					    },
+		            }, {
+		                name: '尚未接入节点',
+		                itemStyle: {
+		                    normal: {
+		                        color: "#585986",
+		                    }
+		                },
+		                label: {
+					        emphasis:{
+			                   	show: false,
+			                    textStyle: {
+			                        fontSize: 14
+			                    },
+			                },
+					    },
+		            }],
+		            
+		            force: {
+		                repulsion: 250,
+		            },
+		            data: data_r_1,
+		            links: link_r_1,
+		            lineStyle: {
+		                normal: {
+		                    opacity: 1,
+		                    width: 1,
+		                    curveness: 0
+		                }
+		            }
+		        }
+		    ]
+		};
+		myChart.setOption(option);
+		var count = 0;
+		var timeTicket = null;
+		timeTicket && clearInterval(timeTicket);
+		timeTicket = setInterval(function() {
+			var data_length = option.series[0].data.length;
+		    myChart.dispatchAction({
+		    type: 'focusNodeAdjacency',
+		    dataIndex: count % (data_length-1)+1,
+		    });
+		    myChart.dispatchAction({
+			    type: 'showTip',
+			    seriesIndex: 0,
+			    dataIndex: count % (data_length-1)+1,
+			});
+		    count++;
+		}, 500);
+	}
+                 
+</script>

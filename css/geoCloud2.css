@@ -1,0 +1,256 @@
+@font-face{
+	font-family: 'DsDigib';
+	src: url('../fonts/DS-DIGIB.TTF') format('truetype');
+	font-weight: bold;
+}
+html, body{
+	font-family: 'Microsoft Yahei',Arial;
+	margin: 0  ! important;
+	padding: 0 ! important;
+	background-color: #181046;
+	font-size: 24px;
+}
+.Left{
+	float: left;
+}
+.Right{
+	float: right;
+}
+.clear{
+	clear: both;
+}
+.GeoCloud{
+	margin: 0 auto;
+	width: 3840px;
+	height: 1080px;
+	position: absolute;
+	overflow: hidden;
+	background: url(../images/geoCloud_bg3.png) no-repeat center center;
+}
+.GeoCloud .header-title{
+	height: 177px;
+	width: 3840px;
+	/*background: url(../images/geoCloud_top2.png) no-repeat center center;*/
+}
+.GeoCloud .main-container{
+	/*padding: 0 24px 32px 24px;*/
+	height: 870px;
+	position: relative;
+	z-index: 1;
+}
+.GeoCloud .main-container .LeftPart, .GeoCloud .main-container .RightPart{
+	width: 1232px;
+	display: block;
+	height: 100%;
+	position: relative;
+	/*z-index: 2;*/
+}
+.GeoCloud .main-container .MainPart{
+	width: 1376px;
+	height: 100%;
+	display: block;
+	position: relative;
+	z-index: 1;
+}
+.GeoCloud .topData{
+	text-align: center;
+	font-size: 2.5rem;
+	color: white;
+	position: absolute;
+	width: 100%;
+	z-index: 10;
+	top: 177px;
+	/*height: 76px;
+	line-height: 76px;*/
+}
+.GeoCloud .topData .name{
+	display: inline-block;
+}
+.GeoCloud .topData div#pSNum{
+	display: inline-block;
+}
+.GeoCloud .main-container .MainPart #Map{
+	height: 870px;
+	width: 1376px;
+}
+.GeoCloud .main-container .PartBorder{
+	border: 1px solid rgba(81,134,255,0.6);
+	box-shadow: inset 0 0 10px #5A3CCA;
+	position: absolute;
+	overflow: hidden;
+}
+.GeoCloud .main-container .TopPart{
+	width: 1200px;
+	height: 556px;
+	top: -18px;
+}
+.GeoCloud .main-container .BottomPart{
+	width: 1200px;
+	height: 312px;
+	bottom: 0;
+}
+.GeoCloud .main-container .LeftPart .TopPart, .GeoCloud .main-container .LeftPart .BottomPart{
+	left: 32px;
+}
+.GeoCloud .main-container .RightPart .TopPart, .GeoCloud .main-container .RightPart .BottomPart{
+	right: 32px;
+}
+.GeoCloud .main-container .PartTitle{
+	font-size: 1.67rem;
+	color: #FEE55A;
+	line-height: 1;
+	padding-left: 32px;
+	padding-top: 24px;
+}
+.GeoCloud .main-container .PartTitle .secondTitle{
+	font-size: 1rem;
+	margin-left: 20px;
+}
+.GeoCloud .main-container .BottomPart .PartContainer{
+	width: 100%;
+	height: 248px;
+	margin-left: 184px;
+}
+
+/******tag cloud start*******/
+.GeoCloud .main-container .BottomPart .PartContainer .tagCloud{
+	position:relative; 
+	width:400px;
+	height:240px;
+	display: inline-block;
+	/*margin: 20px auto 0;*/
+}
+.GeoCloud .main-container .BottomPart .PartContainer .tagCloud a{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	font-family: 'Microsoft YaHei', Arial;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+	padding: 3px 6px;
+}
+.GeoCloud .main-container .BottomPart .PartContainer .tagCloud a.blue{
+	color: blue;
+}
+.GeoCloud .main-container .BottomPart .PartContainer .tagCloud a.white{
+	color: white;
+}
+.GeoCloud .main-container .BottomPart .PartContainer .tagCloud a.red{
+	color: red;
+}
+.GeoCloud .main-container .BottomPart .PartContainer .tagCloud a.yellow{
+	color: yellow;
+}
+/******tag cloud end*******/
+
+/***月度服务****/
+#monthServiceStatus{
+	position:relative; 
+	width:1200px;
+	height:248px;
+}
+
+/******data run******/
+.mt-number-animate{
+	font-family: '微软雅黑';
+	line-height:110px;
+	height: 110px;/*设置数字显示高度*/
+	font-size: 36px;/*设置数字大小*/
+	overflow: hidden;
+	display: inline-block;
+	position: relative;
+}
+.mt-number-animate .name{
+	font-size: 2.5rem;
+	margin-right: 20px;
+	color: white;
+	float: left;
+}
+.mt-number-animate .mt-number-animate-dot{
+	width: 21px;/*设置分割符宽度*/
+	height: 110px;
+	float: left;
+	text-align: center;
+	color: transparent;
+}
+.mt-number-animate .mt-number-animate-dom{
+	width: 60px;/*设置单个数字宽度*/
+	text-align: center;
+	float: left;
+	position: relative;
+	top: 0;
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span{
+	width: 100%;
+	float: left;
+	width: 60px;
+	height: 110px;
+	color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num0{
+	background-image: url(../images/number/0.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num1{
+	background-image: url(../images/number/1.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num2{
+	background-image: url(../images/number/2.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num3{
+	background-image: url(../images/number/3.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num4{
+	background-image: url(../images/number/4.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num5{
+	background-image: url(../images/number/5.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num6{
+	background-image: url(../images/number/6.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num7{
+	background-image: url(../images/number/7.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num8{
+	background-image: url(../images/number/8.png);
+}
+.mt-number-animate .mt-number-animate-dom .mt-number-animate-span.num9{
+	background-image: url(../images/number/9.png);
+}
+.mt-number-animate .mt-number-animate-dot.num-comma{
+	background: url(../images/number/dot.png) no-repeat center bottom;
+}
+
+/*节点服务情况,节点数量*/
+.t-right-1-bar .banner, .t-left-1-bar .banner {
+	position: relative;
+	height: 400px;
+	width: 1200px;
+	margin-top: 30px;
+}
+.t-right-1-bar .banner .tfw, .t-left-1-bar .banner .tfw {
+    width: 1200px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-position: 50% 50%;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    z-index: 8; 
+}
+.t-right-1-bar .banner .tfw.tfw1, .t-left-1-bar .banner .tfw.tfw1 {
+  	opacity: 1;
+  	filter: alpha(opacity=100);
+}
+.t-right-1-bar .banner .tfw.active, .t-left-1-bar .banner .tfw.active {
+  	z-index: 9; 
+}
+.t-right-1-bar .banner .tfw .t-r-1, .t-left-1-bar .banner .tfw .t-l-1 {
+	float: left;
+	width: 600px;
+	height: 400px;
+}
