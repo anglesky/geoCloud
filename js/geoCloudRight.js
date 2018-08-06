@@ -278,14 +278,15 @@ function rightPart2(data){
 }	
 
 function ajaxGetDataRight(act, type){
-	$.ajax({
-		url: dataUrl+act,
-		cache:false,
-		success:function(data){
-			data = JSON.parse(data);
+	// $.ajax({
+	// 	url: dataUrl+act,
+	// 	cache:false,
+	// 	success:function(data){
+	// 		data = JSON.parse(data);
+	        var data = '';
 			switch(type){
 				case 'DATASHARE':
-					rightPart2(data);
+					rightPart2(DATASHARE);
 					break;
 				// case 'GEOLOGYDATA':
 				// 	rightPart3(data);
@@ -297,8 +298,8 @@ function ajaxGetDataRight(act, type){
 					break;
 			}
 
-		}
-	})
+	// 	}
+	// })
 }
 
 /****2017.10.25 add new*****/
@@ -415,3 +416,6 @@ function pictorialBarPart(){
 		pictorialBar();
 	},1000*20);
 }
+
+var DATASHARE = [{"国土资源部":{"visit":1195,"data":"100"}},{"中国地质调查局":{"visit":942,"data":"90"}},{"地科院":{"visit":1182,"data":"90"}},{"发展研究中心":{"visit":612,"data":"90"}},{"天津地调中心":{"visit":1027,"data":"90"}},{"沈阳地调中心":{"visit":623,"data":"90"}},{"南京地调中心":{"visit":892,"data":"90"}},{"武汉地调中心":{"visit":801,"data":"90"}},{"成都地调中心":{"visit":1046,"data":"90"}},{"西安地调中心":{"visit":754,"data":"90"}},{"广州海洋局":{"visit":944,"data":"80"}},{"青岛海洋所":{"visit":774,"data":"80"}},{"航空物探遥感中心":{"visit":712,"data":"80"}},{"物化探所":{"visit":925,"data":"70"}},{"油气调查中心":{"visit":437,"data":"70"}},{"地质所":{"visit":906,"data":"70"}},{"资源所":{"visit":750,"data":"70"}},{"地质力学所":{"visit":333,"data":"60"}},{"环境监测院":{"visit":829,"data":"60"}},{"水环中心":{"visit":822,"data":"60"}},{"岩溶所":{"visit":614,"data":"60"}},{"实物资料中心":{"visit":709,"data":"90"}},{"地质图书馆":{"visit":1114,"data":"90"}},{"矿业报社":{"visit":779,"data":"50"}},{"实验测试中心":{"visit":623,"data":"50"}},{"勘探技术所":{"visit":361,"data":"50"}},{"探矿工程所":{"visit":612,"data":"50"}},{"探矿工艺所":{"visit":694,"data":"50"}},{"郑州综合利用所":{"visit":658,"data":"40"}},{"成都综合利用所":{"visit":178,"data":"40"}}];
+
